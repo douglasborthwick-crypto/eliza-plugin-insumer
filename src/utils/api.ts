@@ -149,7 +149,7 @@ export function formatTrustResult(data: Record<string, unknown>): string {
 
 /**
  * Format a batch trust API response for display.
- * API shape: data = { results: [{ wallet, trustId, trustPayload: { ... }, sig, ... }], summary: { requested, succeeded, failed } }
+ * API shape: data = { results: [{ trust: { id, wallet, summary, ... }, sig, kid } | { error: { wallet, message } }], summary: { requested, succeeded, failed } }
  */
 export function formatBatchResult(data: Record<string, unknown>): string {
   const results = (data.results || []) as Array<Record<string, unknown>>;
@@ -157,12 +157,13 @@ export function formatBatchResult(data: Record<string, unknown>): string {
   const lines: string[] = [`Batch Trust: ${results.length} profiles`, ""];
   for (const result of results) {
     if (result.error) {
-      lines.push(`  ${result.wallet}: ERROR — ${result.error}`);
+      const err = result.error as Record<string, unknown>;
+      lines.push(`  ${err.wallet}: ERROR — ${err.message}`);
     } else {
-      const payload = result.trustPayload as Record<string, unknown> | undefined;
-      const summary = payload?.summary as Record<string, unknown> | undefined;
+      const trust = result.trust as Record<string, unknown> | undefined;
+      const summary = trust?.summary as Record<string, unknown> | undefined;
       lines.push(
-        `  ${result.wallet}: ${summary?.totalPassed ?? "?"}/${summary?.totalChecks ?? "?"} checks passed (${result.trustId})`
+        `  ${trust?.wallet}: ${summary?.totalPassed ?? "?"}/${summary?.totalChecks ?? "?"} checks passed (${trust?.id})`
       );
     }
   }

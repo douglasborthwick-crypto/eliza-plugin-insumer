@@ -5,7 +5,7 @@
  */
 
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { formatAttestResult } from "../src/utils/api.js";
+import { formatAttestResult, formatTrustResult, formatBatchResult } from "../src/utils/api.js";
 import type { AttestParams } from "../src/utils/api.js";
 
 // --- formatAttestResult tests ---
@@ -57,6 +57,74 @@ describe("formatAttestResult", () => {
     const result = formatAttestResult(data);
     expect(result).toContain("Attestation ATST-B8D4F: PASS");
     expect(result).toContain("JWT: eyJhbGciOiJFUzI1NiJ9.eyJzdWIiOiIweDEyMzQifQ.dGVzdA");
+  });
+});
+
+// --- formatTrustResult tests ---
+
+describe("formatTrustResult", () => {
+  it("formats trust response with correct nesting", () => {
+    const data = {
+      trust: {
+        id: "TRST-12345",
+        wallet: "0xabc",
+        dimensions: {
+          financial: {
+            checks: [
+              { label: "USDC balance", met: true },
+              { label: "ETH balance", met: false },
+            ],
+            passCount: 1,
+            failCount: 1,
+            total: 2,
+          },
+        },
+        summary: {
+          totalChecks: 2,
+          totalPassed: 1,
+          totalFailed: 1,
+        },
+      },
+      sig: "base64sig...",
+      kid: "insumer-attest-v1",
+    };
+
+    const result = formatTrustResult(data);
+    expect(result).toContain("Trust Profile TRST-12345");
+    expect(result).toContain("financial: 1/2 passed");
+    expect(result).toContain("[+] USDC balance");
+    expect(result).toContain("[-] ETH balance");
+    expect(result).toContain("Overall: 1/2 checks passed");
+  });
+});
+
+// --- formatBatchResult tests ---
+
+describe("formatBatchResult", () => {
+  it("formats batch response with correct nesting", () => {
+    const data = {
+      results: [
+        {
+          trust: {
+            id: "TRST-AAA",
+            wallet: "0x111",
+            summary: { totalChecks: 5, totalPassed: 3, totalFailed: 2 },
+          },
+          sig: "sig1",
+          kid: "insumer-attest-v1",
+        },
+        {
+          error: { wallet: "0x222", message: "Invalid address" },
+        },
+      ],
+      summary: { requested: 2, succeeded: 1, failed: 1 },
+    };
+
+    const result = formatBatchResult(data);
+    expect(result).toContain("Batch Trust: 2 profiles");
+    expect(result).toContain("0x111: 3/5 checks passed (TRST-AAA)");
+    expect(result).toContain("0x222: ERROR — Invalid address");
+    expect(result).toContain("1/2 succeeded");
   });
 });
 
