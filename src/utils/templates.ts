@@ -13,14 +13,21 @@ Extract the following as a JSON object:
   - chainId: chain ID number or "solana" or "xrpl"
   - threshold: minimum balance (for token_balance)
   - decimals: token decimals (for token_balance)
+  - currency: XRPL trust line currency code (e.g. "RLUSD", "USDC"). Required for XRPL trust line tokens.
+  - taxon: XRPL NFT taxon number (optional, for nft_ownership on XRPL only)
   - label: human-readable description
   - template: compliance template name (for eas_attestation)
 
-Chain ID reference:
+Chain ID reference (32 supported chains):
   Ethereum = 1, BNB Chain = 56, Base = 8453, Avalanche = 43114,
   Polygon = 137, Arbitrum = 42161, Optimism = 10, Chiliz = 88888,
-  Soneium = 1868, Plume = 98866, World Chain = 480, Solana = "solana",
-  XRPL = "xrpl"
+  Soneium = 1868, Plume = 98866, World Chain = 480,
+  Sonic = 146, Gnosis = 100, Mantle = 5000, Scroll = 534352,
+  Linea = 59144, zkSync Era = 324, Blast = 81457, Taiko = 167000,
+  Ronin = 2020, Celo = 42220, Moonbeam = 1284, Moonriver = 1285,
+  Viction = 88, opBNB = 204, Unichain = 130, Ink = 57073,
+  Sei = 1329, Berachain = 80094, ApeChain = 33139,
+  Solana = "solana", XRPL = "xrpl"
 
 Well-known contracts (Ethereum mainnet unless noted):
   USDC = 0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48 (6 decimals)
@@ -33,12 +40,15 @@ Well-known contracts (Ethereum mainnet unless noted):
   USDC on Base = 0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913 (6 decimals)
   USDC on Polygon = 0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359 (6 decimals)
   USDC on Arbitrum = 0xaf88d065e77c8cC2239327C5EDb3A432268e5831 (6 decimals)
+  USDC on Optimism = 0x0b2C639c533813f4Aa9D7837CAf62653d097Ff85 (6 decimals)
+  USDC on BNB Chain = 0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d (18 decimals)
+  USDC on Avalanche = 0xB97EF9Ef8734C71904D8002F8b6Bc66Dd9c48a6E (6 decimals)
   USDC on Solana = EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v (6 decimals)
 
 XRPL tokens (use chainId "xrpl"):
   XRP native = contractAddress "native"
   RLUSD = contractAddress "rMxCKbEDwqr76QuheSUMdEGf4B9xJ8m5De", currency "RLUSD"
-  USDC on XRPL = contractAddress "rcEGREd8NmkKRE8GE424sksyt1tJVFZwu", currency "USD"
+  USDC on XRPL = contractAddress "rGm7WCVp9gb4jZHWTEtGUr4dd74z2XuWhE", currency "USDC"
 
 Compliance templates (for eas_attestation, no contractAddress needed):
   "coinbase_verified_account" — KYC on Base
