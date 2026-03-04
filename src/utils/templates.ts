@@ -7,7 +7,7 @@ Extract the following as a JSON object:
 - wallet: EVM address (0x...) if present
 - solanaWallet: Solana address (base58) if present
 - xrplWallet: XRPL address (r...) if present
-- format: "jwt" if the user asks for a JWT token, bearer token, or JWT format. Omit otherwise.
+- format: "jwt" if the user asks for a JWT token, bearer token, Wallet Auth token, or JWT format. Omit otherwise.
 - conditions: array of conditions to check, each with:
   - type: "token_balance", "nft_ownership", "eas_attestation", or "farcaster_id"
   - contractAddress: token/NFT contract address (use the reference table below)
