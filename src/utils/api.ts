@@ -29,6 +29,7 @@ export interface AttestParams {
   solanaWallet?: string;
   xrplWallet?: string;
   proof?: "merkle";
+  format?: "jwt" | "json";
   conditions: AttestCondition[];
 }
 
@@ -85,10 +86,15 @@ interface TrustDimension {
   total: number;
 }
 
+/**
+ * Format an attest API response for display.
+ * API shape: data = { attestation: { id, pass, results, passCount, failCount, expiresAt }, sig, kid, jwt? }
+ */
 export function formatAttestResult(data: Record<string, unknown>): string {
-  const id = data.id as string;
-  const pass = data.pass as boolean;
-  const results = (data.results || []) as AttestResult[];
+  const attestation = data.attestation as Record<string, unknown> | undefined;
+  const id = attestation?.id as string;
+  const pass = attestation?.pass as boolean;
+  const results = (attestation?.results || []) as AttestResult[];
   const lines: string[] = [
     `Attestation ${id}: ${pass ? "PASS" : "FAIL"}`,
     "",
@@ -99,19 +105,27 @@ export function formatAttestResult(data: Record<string, unknown>): string {
       r.chainId !== undefined ? ` (chain ${r.chainId})` : "";
     lines.push(`  [${icon}] ${r.label || r.type}${chain}`);
   }
-  const passCount = data.passCount as number;
-  const failCount = data.failCount as number;
+  const passCount = attestation?.passCount as number;
+  const failCount = attestation?.failCount as number;
   lines.push("", `${passCount} passed, ${failCount} failed`);
-  if (data.expiresAt) {
-    lines.push(`Expires: ${data.expiresAt}`);
+  if (attestation?.expiresAt) {
+    lines.push(`Expires: ${attestation.expiresAt}`);
+  }
+  if (data.jwt) {
+    lines.push("", `JWT: ${data.jwt}`);
   }
   return lines.join("\n");
 }
 
+/**
+ * Format a trust API response for display.
+ * API shape: data = { trust: { id, dimensions, summary, ... }, sig, kid }
+ */
 export function formatTrustResult(data: Record<string, unknown>): string {
-  const id = data.id as string;
-  const dimensions = data.dimensions as Record<string, TrustDimension> | undefined;
-  const summary = data.summary as Record<string, unknown> | undefined;
+  const trust = data.trust as Record<string, unknown> | undefined;
+  const id = trust?.id as string;
+  const dimensions = trust?.dimensions as Record<string, TrustDimension> | undefined;
+  const summary = trust?.summary as Record<string, unknown> | undefined;
   const lines: string[] = [`Trust Profile ${id}`, ""];
   if (dimensions) {
     for (const [name, dim] of Object.entries(dimensions)) {
@@ -127,24 +141,33 @@ export function formatTrustResult(data: Record<string, unknown>): string {
   if (summary) {
     lines.push(
       "",
-      `Overall: ${summary.passCount}/${summary.totalChecks} checks passed`
+      `Overall: ${summary.totalPassed}/${summary.totalChecks} checks passed`
     );
   }
   return lines.join("\n");
 }
 
+/**
+ * Format a batch trust API response for display.
+ * API shape: data = { results: [{ wallet, trustId, trustPayload: { ... }, sig, ... }], summary: { requested, succeeded, failed } }
+ */
 export function formatBatchResult(data: Record<string, unknown>): string {
-  const profiles = (data.profiles || []) as Array<Record<string, unknown>>;
-  const lines: string[] = [`Batch Trust: ${profiles.length} profiles`, ""];
-  for (const profile of profiles) {
-    if (profile.error) {
-      lines.push(`  ${profile.wallet}: ERROR — ${profile.error}`);
+  const results = (data.results || []) as Array<Record<string, unknown>>;
+  const batchSummary = data.summary as Record<string, unknown> | undefined;
+  const lines: string[] = [`Batch Trust: ${results.length} profiles`, ""];
+  for (const result of results) {
+    if (result.error) {
+      lines.push(`  ${result.wallet}: ERROR — ${result.error}`);
     } else {
-      const summary = profile.summary as Record<string, unknown> | undefined;
+      const payload = result.trustPayload as Record<string, unknown> | undefined;
+      const summary = payload?.summary as Record<string, unknown> | undefined;
       lines.push(
-        `  ${profile.wallet}: ${summary?.passCount ?? "?"}/${summary?.totalChecks ?? "?"} checks passed (${profile.id})`
+        `  ${result.wallet}: ${summary?.totalPassed ?? "?"}/${summary?.totalChecks ?? "?"} checks passed (${result.trustId})`
       );
     }
+  }
+  if (batchSummary) {
+    lines.push("", `${batchSummary.succeeded}/${batchSummary.requested} succeeded`);
   }
   return lines.join("\n");
 }
