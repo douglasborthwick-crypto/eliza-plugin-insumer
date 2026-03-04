@@ -93,6 +93,10 @@ Batch Trust: 3 profiles
   0x1234...: 3/17 checks passed (TRST-D4M6H)
 ```
 
+## Wallet Auth (JWT)
+
+The VERIFY_WALLET action supports `format: "jwt"` when the user requests a JWT or bearer token. The response includes a standard ES256-signed JWT alongside the attestation, verifiable by any JWT library via the JWKS endpoint at `GET /v1/jwks`. Use this for direct API gateway integration (Kong, Nginx, Cloudflare Access, AWS API Gateway).
+
 ## Provider: WALLET_CREDENTIALS
 
 Automatically detects wallet addresses (EVM, Solana, XRPL) in conversation and signals that verification actions are available. Dynamic — only activates when wallet patterns are found.
