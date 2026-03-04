@@ -1,0 +1,60 @@
+{
+  "name": "eliza-plugin-insumer",
+  "version": "1.0.0",
+  "description": "ElizaOS plugin for InsumerAPI — privacy-preserving on-chain verification across 32 blockchains",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "test": "vitest run",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "elizaos",
+    "eliza",
+    "plugin",
+    "insumer",
+    "blockchain",
+    "verification",
+    "wallet",
+    "trust",
+    "attestation",
+    "web3",
+    "ai-agent"
+  ],
+  "author": "Insumer Model <contact@insumermodel.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/douglasborthwick-crypto/eliza-plugin-insumer.git"
+  },
+  "peerDependencies": {
+    "@elizaos/core": "^1.7.0"
+  },
+  "devDependencies": {
+    "@elizaos/core": "^1.7.0",
+    "tsup": "^8.0.0",
+    "typescript": "^5.4.0",
+    "vitest": "^1.6.0"
+  },
+  "agentConfig": {
+    "pluginType": "elizaos:plugin:1.0.0",
+    "pluginParameters": {
+      "INSUMER_API_KEY": {
+        "type": "string",
+        "description": "InsumerAPI key (starts with insr_live_). Get one free at https://insumermodel.com/developers/"
+      }
+    }
+  }
+}
