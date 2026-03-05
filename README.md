@@ -63,7 +63,7 @@ Attestation ATST-A7C3E: PASS
 
 ### CHECK_TRUST
 
-Generate a structured wallet trust profile with 17+ checks across stablecoins (USDC on 7 chains), governance tokens (UNI, AAVE, ARB, OP), NFTs (BAYC, Pudgy Penguins), and staking (stETH, rETH, cbETH). Optional cross-chain with Solana and XRPL wallets.
+Generate a structured wallet trust profile with 17+ checks across stablecoins (USDC on 7 chains), governance tokens (UNI, AAVE, ARB, OP), NFTs (BAYC, Pudgy Penguins, Wrapped CryptoPunks), and staking (stETH, rETH, cbETH). Optional cross-chain with Solana and XRPL wallets.
 
 **Example conversation:**
 ```
