@@ -101,11 +101,17 @@ The VERIFY_WALLET action supports `format: "jwt"` when the user requests a JWT o
 
 Automatically detects wallet addresses (EVM, Solana, XRPL) in conversation and signals that verification actions are available. Dynamic — only activates when wallet patterns are found.
 
+## Handling `rpc_failure` Errors
+
+If the API cannot reach one or more data sources (RPC nodes, Helius, XRPL, Covalent) after retries, `VERIFY_WALLET` and `CHECK_TRUST` actions return `ok: false` with error code `rpc_failure`. No signature, no JWT, no credits charged. This is a retryable error — the agent should retry after 2-5 seconds.
+
+**Important:** `rpc_failure` is NOT a verification failure. Do not treat it as `pass: false`. It means the data source was temporarily unavailable and the API refused to sign an unverified result.
+
 ## Supported Chains (32)
 
-**11 RPC chains:** Ethereum, BNB Chain, Base, Avalanche, Polygon, Arbitrum, Optimism, Chiliz, Soneium, Plume, World Chain
+**26 direct-RPC chains:** Ethereum, BNB Chain, Base, Avalanche, Polygon, Arbitrum, Optimism, Chiliz, Soneium, Plume, World Chain, Sonic, Gnosis, Mantle, Scroll, Linea, ZKsync, Blast, Celo, Moonbeam, opBNB, Unichain, Ink, Sei, Berachain, ApeChain
 
-**19 Covalent chains:** Sonic, Gnosis, Mantle, Scroll, Linea, zkSync Era, Blast, Taiko, Ronin, Celo, Moonbeam, Moonriver, Viction, opBNB, Unichain, Ink, Sei, Berachain, ApeChain
+**4 Covalent chains:** Taiko, Ronin, Moonriver, Viction
 
 **Plus:** Solana, XRP Ledger
 
