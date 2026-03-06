@@ -1,6 +1,6 @@
 {
   "name": "eliza-plugin-insumer",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "ElizaOS plugin for InsumerAPI — privacy-preserving on-chain verification across 32 blockchains",
   "type": "module",
   "main": "dist/index.js",
