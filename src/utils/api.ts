@@ -29,7 +29,7 @@ export interface AttestParams {
   solanaWallet?: string;
   xrplWallet?: string;
   proof?: "merkle";
-  format?: "jwt" | "json";
+  format?: "jwt";
   conditions: AttestCondition[];
 }
 
