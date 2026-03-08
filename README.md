@@ -101,6 +101,16 @@ The VERIFY_WALLET action supports `format: "jwt"` when the user requests a JWT o
 
 Automatically detects wallet addresses (EVM, Solana, XRPL) in conversation and signals that verification actions are available. Dynamic — only activates when wallet patterns are found.
 
+## XRPL Response Fields
+
+XRPL attestation results include additional fields not present on EVM chains:
+
+- `ledgerIndex` (integer) — the XRPL ledger sequence number at time of verification
+- `ledgerHash` (string) — the hash of that ledger
+- `trustLineState.frozen` (boolean) — whether the trust line is frozen (trust line token conditions only)
+
+EVM results include `blockNumber` and `blockTimestamp` instead.
+
 ## Handling `rpc_failure` Errors
 
 If the API cannot reach one or more data sources (RPC nodes, Helius, XRPL, Covalent) after retries, `VERIFY_WALLET` and `CHECK_TRUST` actions return `ok: false` with error code `rpc_failure`. No signature, no JWT, no credits charged. This is a retryable error — the agent should retry after 2-5 seconds.

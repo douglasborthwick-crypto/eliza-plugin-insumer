@@ -77,6 +77,11 @@ interface AttestResult {
   type: string;
   chainId?: number | string;
   met: boolean;
+  blockNumber?: string;
+  blockTimestamp?: string;
+  ledgerIndex?: number;
+  ledgerHash?: string;
+  trustLineState?: { frozen: boolean };
 }
 
 interface TrustDimension {
