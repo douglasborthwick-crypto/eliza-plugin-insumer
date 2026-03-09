@@ -24,7 +24,7 @@ curl -s -X POST https://us-central1-insumer-merchant.cloudfunctions.net/createDe
 
 Returns an `insr_live_...` key with 10 credits and 100 calls/day. One free key per email.
 
-Or get one at [insumermodel.com/developers](https://insumermodel.com/developers/).
+Or visit [insumermodel.com/developers](https://insumermodel.com/developers/) to get one.
 
 ### 2. Add to your character file
 

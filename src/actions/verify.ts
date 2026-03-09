@@ -70,6 +70,21 @@ export const verifyWalletAction: Action = {
         },
       } as ActionExample,
     ],
+    [
+      {
+        name: "user",
+        content: {
+          text: "Check if ra8xqX4QhcogFfxpMxMByvFnXyxw9E8rzY holds at least 10 RLUSD on XRPL",
+        },
+      } as ActionExample,
+      {
+        name: "assistant",
+        content: {
+          text: "I'll verify RLUSD holdings on XRP Ledger for that wallet.",
+          actions: ["VERIFY_WALLET"],
+        },
+      } as ActionExample,
+    ],
   ],
 
   validate: async (runtime: IAgentRuntime, _message: Memory): Promise<boolean> => {

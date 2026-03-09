@@ -108,7 +108,14 @@ export function formatAttestResult(data: Record<string, unknown>): string {
     const icon = r.met ? "+" : "-";
     const chain =
       r.chainId !== undefined ? ` (chain ${r.chainId})` : "";
-    lines.push(`  [${icon}] ${r.label || r.type}${chain}`);
+    let extra = "";
+    if (r.ledgerIndex !== undefined) {
+      extra += ` | ledger ${r.ledgerIndex}`;
+    }
+    if (r.trustLineState?.frozen) {
+      extra += " | FROZEN trust line";
+    }
+    lines.push(`  [${icon}] ${r.label || r.type}${chain}${extra}`);
   }
   const passCount = attestation?.passCount as number;
   const failCount = attestation?.failCount as number;
