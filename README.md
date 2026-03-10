@@ -125,6 +125,18 @@ If the API cannot reach one or more data sources (RPC nodes, Helius, XRPL, Coval
 
 **Plus:** Solana, XRP Ledger
 
+## Pricing
+
+**Tiers:** Free (10 credits) | Pro $9/mo (10,000/day) | Enterprise $29/mo (100,000/day)
+
+**USDC volume discounts:** $5–$99 = $0.04/call (25 credits/$1) · $100–$499 = $0.03 (33/$1, 25% off) · $500+ = $0.02 (50/$1, 50% off)
+
+**Platform wallets (USDC only):**
+- **EVM:** `0xAd982CB19aCCa2923Df8F687C0614a7700255a23`
+- **Solana:** `6a1mLjefhvSJX1sEX8PTnionbE9DqoYjU6F6bNkT4Ydr`
+
+**Supported USDC chains:** Ethereum, Base, Polygon, Arbitrum, Optimism, BNB Chain, Avalanche, Solana. USDC sent on unsupported chains cannot be recovered. All purchases are final and non-refundable. [Full pricing →](https://insumermodel.com/pricing/)
+
 ## Also Available As
 
 - **MCP Server:** `npx -y mcp-server-insumer` ([npm](https://www.npmjs.com/package/mcp-server-insumer))
