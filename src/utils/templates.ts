@@ -138,6 +138,7 @@ Extract the following as a JSON object:
   - chainId: chain ID number
   - contractAddress: token contract address
   - decimals: token decimals (6 for USDC, 18 for most ERC-20)
+  - currency: XRPL trust line currency code (e.g. "RLUSD", "USDC") — only for XRPL tokens
   - tiers: array of 1-4 tiers, each with:
     - name: tier name (e.g. "Bronze", "Silver", "Gold")
     - threshold: minimum token balance for this tier

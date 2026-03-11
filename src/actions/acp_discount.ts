@@ -112,15 +112,21 @@ export const acpDiscountAction: Action = {
     const data = result.data as Record<string, unknown>;
     const discounts = data.discounts as Record<string, unknown> | undefined;
     const codes = (discounts?.codes || []) as string[];
+    const applied = (discounts?.applied || []) as Array<Record<string, unknown>>;
     const verification = data.verification as Record<string, unknown> | undefined;
 
     const lines = [`ACP Discount Result`, ``];
     if (codes.length > 0) {
       lines.push(`Discount code: ${codes[0]}`);
     }
+    if (applied.length > 0) {
+      const coupon = applied[0].coupon as Record<string, unknown> | undefined;
+      if (coupon?.percent_off) {
+        lines.push(`Discount: ${coupon.percent_off}%`);
+      }
+    }
     if (verification) {
       lines.push(`Verification code: ${verification.code}`);
-      lines.push(`Discount: ${verification.totalDiscount}%`);
     }
     if (codes.length === 0 && !verification) {
       lines.push(`No discount eligible for this wallet at this merchant.`);

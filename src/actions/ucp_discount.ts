@@ -111,15 +111,21 @@ export const ucpDiscountAction: Action = {
     const data = result.data as Record<string, unknown>;
     const discounts = data.discounts as Record<string, unknown> | undefined;
     const codes = (discounts?.codes || []) as string[];
+    const applied = (discounts?.applied || []) as Array<Record<string, unknown>>;
     const verification = data.verification as Record<string, unknown> | undefined;
 
     const lines = [`UCP Discount Result`, ``];
     if (codes.length > 0) {
       lines.push(`Discount code: ${codes[0]}`);
     }
+    if (applied.length > 0) {
+      const discount = applied[0] as Record<string, unknown>;
+      if (discount.title) {
+        lines.push(`Discount: ${discount.title}`);
+      }
+    }
     if (verification) {
       lines.push(`Verification code: ${verification.code}`);
-      lines.push(`Discount: ${verification.totalDiscount}%`);
     }
     if (codes.length === 0 && !verification) {
       lines.push(`No discount eligible for this wallet at this merchant.`);

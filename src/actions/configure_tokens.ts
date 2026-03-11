@@ -20,6 +20,7 @@ interface TokenConfig {
   chainId: number;
   contractAddress: string;
   decimals: number;
+  currency?: string;
   tiers: TokenTier[];
 }
 
