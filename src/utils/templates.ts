@@ -113,3 +113,120 @@ Platform wallets:
   Solana: 6a1mLjefhvSJX1sEX8PTnionbE9DqoYjU6F6bNkT4Ydr
 
 Respond with ONLY the JSON object, no explanation.`;
+
+export const createMerchantTemplate = `You are extracting merchant creation parameters from the conversation.
+
+Recent messages:
+{{recentMessages}}
+
+Extract the following as a JSON object:
+- companyName: display name for the merchant (required)
+- companyId: unique alphanumeric ID with dashes/underscores (required, e.g. "acme-coffee")
+- location: city or region (optional)
+
+Respond with ONLY the JSON object, no explanation.`;
+
+export const configureTokensTemplate = `You are extracting token tier configuration parameters from the conversation.
+
+Recent messages:
+{{recentMessages}}
+
+Extract the following as a JSON object:
+- merchantId: the merchant ID to configure tokens for (required)
+- ownToken: the merchant's own token config (or null), with:
+  - symbol: token symbol (e.g. "USDC", "UNI")
+  - chainId: chain ID number
+  - contractAddress: token contract address
+  - decimals: token decimals (6 for USDC, 18 for most ERC-20)
+  - tiers: array of 1-4 tiers, each with:
+    - name: tier name (e.g. "Bronze", "Silver", "Gold")
+    - threshold: minimum token balance for this tier
+    - discount: discount percentage (1-100)
+- partnerTokens: array of additional token configs (same structure as ownToken), default []
+
+Onboarding chain IDs (only these 11 are supported for token config):
+  Ethereum = 1, BNB Chain = 56, Base = 8453, Avalanche = 43114,
+  Polygon = 137, Arbitrum = 42161, Optimism = 10, Chiliz = 88888,
+  Soneium = 1868, Plume = 98866, World Chain = 480
+
+Well-known contracts:
+  USDC on Ethereum = 0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48 (6 decimals)
+  USDC on Base = 0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913 (6 decimals)
+  UNI = 0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984 (18 decimals)
+
+Respond with ONLY the JSON object, no explanation.`;
+
+export const addCreditsTemplate = `You are extracting merchant credit purchase parameters from the conversation.
+
+Recent messages:
+{{recentMessages}}
+
+Extract the following as a JSON object:
+- merchantId: the merchant ID to add credits to (required)
+- txHash: the USDC transaction hash (required)
+- chainId: chain where USDC was sent (number or "solana")
+- amount: USDC amount sent (number, minimum 5)
+- updateWallet: true only if the user explicitly wants to change their registered wallet (default false)
+
+Chain IDs for USDC payments:
+  Ethereum = 1, Base = 8453, Polygon = 137, Arbitrum = 42161,
+  Optimism = 10, BNB Chain = 56, Avalanche = 43114, Solana = "solana"
+
+Platform wallets:
+  EVM: 0xAd982CB19aCCa2923Df8F687C0614a7700255a23
+  Solana: 6a1mLjefhvSJX1sEX8PTnionbE9DqoYjU6F6bNkT4Ydr
+
+Respond with ONLY the JSON object, no explanation.`;
+
+export const acpDiscountTemplate = `You are extracting ACP discount check parameters from the conversation.
+
+Recent messages:
+{{recentMessages}}
+
+Extract the following as a JSON object:
+- merchantId: the merchant ID (required)
+- wallet: EVM address (0x...) if present
+- solanaWallet: Solana address (base58) if present
+- xrplWallet: XRPL address (r...) if present
+- items: optional array of line items, each with:
+  - path: JSONPath reference (e.g. "$.line_items[0]")
+  - amount: item price in cents
+
+At least one wallet address is required.
+
+Respond with ONLY the JSON object, no explanation.`;
+
+export const ucpDiscountTemplate = `You are extracting UCP discount check parameters from the conversation.
+
+Recent messages:
+{{recentMessages}}
+
+Extract the following as a JSON object:
+- merchantId: the merchant ID (required)
+- wallet: EVM address (0x...) if present
+- solanaWallet: Solana address (base58) if present
+- xrplWallet: XRPL address (r...) if present
+- items: optional array of line items, each with:
+  - path: JSONPath reference (e.g. "$.line_items[0]")
+  - amount: item price in cents
+
+At least one wallet address is required.
+
+Respond with ONLY the JSON object, no explanation.`;
+
+export const confirmPaymentTemplate = `You are extracting payment confirmation parameters from the conversation.
+
+Recent messages:
+{{recentMessages}}
+
+Extract the following as a JSON object:
+- code: the discount code (INSR-XXXXX format, required)
+- txHash: the USDC transaction hash (required)
+- chainId: chain where USDC was sent (number or "solana")
+- amount: USDC amount sent (number or string)
+
+Chain IDs for USDC payments:
+  Ethereum = 1, Base = 8453, Polygon = 137, Arbitrum = 42161,
+  Optimism = 10, BNB Chain = 56, Avalanche = 43114, Solana = "solana"
+
+Respond with ONLY the JSON object, no explanation.`;
