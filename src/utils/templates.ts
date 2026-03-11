@@ -92,3 +92,24 @@ Extract the following as a JSON object:
 Maximum 10 wallets. Each wallet gets an independent trust profile.
 
 Respond with ONLY the JSON object, no explanation.`;
+
+export const buyKeyTemplate = `You are extracting API key purchase parameters from the conversation.
+
+Recent messages:
+{{recentMessages}}
+
+Extract the following as a JSON object:
+- txHash: the USDC transaction hash
+- chainId: chain where USDC was sent (number or "solana")
+- amount: USDC amount sent (number, minimum 5)
+- appName: name for the API key
+
+Chain IDs for USDC payments:
+  Ethereum = 1, Base = 8453, Polygon = 137, Arbitrum = 42161,
+  Optimism = 10, BNB Chain = 56, Avalanche = 43114, Solana = "solana"
+
+Platform wallets:
+  EVM: 0xAd982CB19aCCa2923Df8F687C0614a7700255a23
+  Solana: 6a1mLjefhvSJX1sEX8PTnionbE9DqoYjU6F6bNkT4Ydr
+
+Respond with ONLY the JSON object, no explanation.`;

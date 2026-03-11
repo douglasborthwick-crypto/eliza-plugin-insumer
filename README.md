@@ -93,6 +93,21 @@ Batch Trust: 3 profiles
   0x1234...: 3/17 checks passed (TRST-D4M6H)
 ```
 
+### BUY_API_KEY
+
+Buy a new InsumerAPI key with USDC. No existing API key required — the sender wallet from the USDC transaction becomes the key's identity. One key per wallet.
+
+```
+User: "I sent 10 USDC on Base, tx 0xabc123. Create an API key called TrustBot."
+Agent: [calls BUY_API_KEY → POST /v1/keys/buy]
+
+API key created successfully!
+Key: insr_live_...
+Name: TrustBot
+Credits: 250
+Wallet: 0x...
+```
+
 ## Wallet Auth (JWT)
 
 The VERIFY_WALLET action supports `format: "jwt"` when the user requests a JWT or bearer token. The response includes a standard ES256-signed JWT alongside the attestation, verifiable by any JWT library via the JWKS endpoint at `GET /v1/jwks`. Use this for direct API gateway integration (Kong, Nginx, Cloudflare Access, AWS API Gateway).

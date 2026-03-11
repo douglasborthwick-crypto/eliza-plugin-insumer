@@ -69,6 +69,20 @@ export async function apiCall(
   return res.json() as Promise<ApiResponse>;
 }
 
+export async function publicApiCall(
+  method: string,
+  path: string,
+  body?: Record<string, unknown>
+): Promise<ApiResponse> {
+  const url = `${API_BASE}${path}`;
+  const res = await fetch(url, {
+    method,
+    headers: { "Content-Type": "application/json" },
+    body: body ? JSON.stringify(body) : undefined,
+  });
+  return res.json() as Promise<ApiResponse>;
+}
+
 // --- Response formatters ---
 
 interface AttestResult {
