@@ -145,10 +145,14 @@ Extract the following as a JSON object:
     - discount: discount percentage (1-100)
 - partnerTokens: array of additional token configs (same structure as ownToken), default []
 
-Onboarding chain IDs (only these 11 are supported for token config):
+Onboarding chain IDs (26 EVM chains supported for token config):
   Ethereum = 1, BNB Chain = 56, Base = 8453, Avalanche = 43114,
   Polygon = 137, Arbitrum = 42161, Optimism = 10, Chiliz = 88888,
-  Soneium = 1868, Plume = 98866, World Chain = 480
+  Soneium = 1868, Plume = 98866, World Chain = 480,
+  Sonic = 146, Gnosis = 100, Mantle = 5000, Scroll = 534352,
+  Linea = 59144, zkSync Era = 324, Blast = 81457, Celo = 42220,
+  Moonbeam = 1284, opBNB = 204, Unichain = 130, Ink = 57073,
+  Sei = 1329, Berachain = 80094, ApeChain = 33139
 
 Well-known contracts:
   USDC on Ethereum = 0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48 (6 decimals)

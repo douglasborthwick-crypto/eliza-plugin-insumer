@@ -33,7 +33,7 @@ interface ConfigureTokensParams {
 export const configureTokensAction: Action = {
   name: "CONFIGURE_TOKENS",
   description:
-    "Configure which tokens gate access to merchant discounts and set tier thresholds. Supports own token + up to 7 partner tokens with 1-4 discount tiers each. Limited to 11 onboarding chains.",
+    "Configure which tokens gate access to merchant discounts and set tier thresholds. Supports own token + up to 7 partner tokens with 1-4 discount tiers each. All 26 EVM chains supported.",
   similes: [
     "SET_TOKEN_TIERS",
     "CONFIGURE_TOKEN_GATING",
