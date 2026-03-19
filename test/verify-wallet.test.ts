@@ -14,7 +14,7 @@ describe("formatAttestResult", () => {
   it("formats standard attest response correctly", () => {
     const data = {
       attestation: {
-        id: "ATST-A7C3E",
+        id: "ATST-A7C3E1B2D4F56789",
         pass: false,
         results: [
           { condition: 0, label: "USDC >= 1000", type: "token_balance", chainId: 1, met: true },
@@ -30,7 +30,7 @@ describe("formatAttestResult", () => {
     };
 
     const result = formatAttestResult(data);
-    expect(result).toContain("Attestation ATST-A7C3E: FAIL");
+    expect(result).toContain("Attestation ATST-A7C3E1B2D4F56789: FAIL");
     expect(result).toContain("[+] USDC >= 1000 (chain 1)");
     expect(result).toContain("[-] Bored Ape holder (chain 1)");
     expect(result).toContain("1 passed, 1 failed");
@@ -41,7 +41,7 @@ describe("formatAttestResult", () => {
   it("includes jwt field when present", () => {
     const data = {
       attestation: {
-        id: "ATST-B8D4F",
+        id: "ATST-B8D4F6A7E9C01234",
         pass: true,
         results: [{ condition: 0, label: "Test", type: "token_balance", chainId: 1, met: true }],
         passCount: 1,
@@ -55,7 +55,7 @@ describe("formatAttestResult", () => {
     };
 
     const result = formatAttestResult(data);
-    expect(result).toContain("Attestation ATST-B8D4F: PASS");
+    expect(result).toContain("Attestation ATST-B8D4F6A7E9C01234: PASS");
     expect(result).toContain("JWT: eyJhbGciOiJFUzI1NiJ9.eyJzdWIiOiIweDEyMzQifQ.dGVzdA");
   });
 });

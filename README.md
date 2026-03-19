@@ -128,7 +128,7 @@ Verify 1-10 on-chain conditions (token balances, NFT ownership, EAS attestations
 User: "Check if 0xd8dA... holds at least 100 UNI"
 Agent: [calls VERIFY_WALLET → POST /v1/attest]
 
-Attestation ATST-A7C3E: PASS
+Attestation ATST-A7C3E1B2D4F56789: PASS
   [+] UNI balance >= 100 (chain 1)
 1 passed, 0 failed
 ```
