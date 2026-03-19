@@ -248,3 +248,7 @@ If the API cannot reach one or more data sources after retries, actions return `
 ## License
 
 MIT
+
+---
+
+If you find this useful, please star the repo — it helps others discover it.
