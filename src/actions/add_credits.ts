@@ -12,15 +12,15 @@ import { addCreditsTemplate } from "../utils/templates.js";
 interface AddCreditsParams {
   merchantId: string;
   txHash: string;
-  chainId: number | "solana";
-  amount: number;
+  chainId: number | "solana" | "bitcoin";
+  amount?: number;
   updateWallet?: boolean;
 }
 
 export const addCreditsAction: Action = {
   name: "ADD_CREDITS",
   description:
-    "Buy merchant verification credits with USDC. Send USDC to the platform wallet, then provide the tx hash. Credits are consumed by discount code generation (POST /v1/verify, ACP, UCP). Volume discounts apply.",
+    "Buy merchant verification credits with USDC, USDT, or BTC. Send crypto to the platform wallet, then provide the tx hash. USDC/USDT auto-detected on EVM/Solana. BTC on Bitcoin (converted to USD at market rate). Credits are consumed by discount code generation (POST /v1/verify, ACP, UCP). Volume discounts apply.",
   similes: [
     "BUY_MERCHANT_CREDITS",
     "TOP_UP_CREDITS",
@@ -79,7 +79,7 @@ export const addCreditsAction: Action = {
     } catch {
       if (callback) {
         await callback({
-          text: "I couldn't extract the credit purchase details. Please provide: merchant ID, transaction hash, chain, and USDC amount.",
+          text: "I couldn't extract the credit purchase details. Please provide: merchant ID, transaction hash, chain, and amount (for stablecoins).",
         });
       }
       return { success: false, text: "Failed to parse credit purchase parameters" };
@@ -87,7 +87,7 @@ export const addCreditsAction: Action = {
 
     if (!params.merchantId || !params.txHash) {
       if (callback) {
-        await callback({ text: "Please provide the merchant ID and USDC transaction hash." });
+        await callback({ text: "Please provide the merchant ID and transaction hash." });
       }
       return { success: false, text: "Missing merchant ID or tx hash" };
     }

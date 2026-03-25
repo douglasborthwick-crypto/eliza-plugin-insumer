@@ -11,15 +11,15 @@ import { buyKeyTemplate } from "../utils/templates.js";
 
 interface BuyKeyParams {
   txHash: string;
-  chainId: number | "solana";
-  amount: number;
+  chainId: number | "solana" | "bitcoin";
+  amount?: number;
   appName: string;
 }
 
 export const buyKeyAction: Action = {
   name: "BUY_API_KEY",
   description:
-    "Buy a new InsumerAPI key with USDC. No existing API key required. Send USDC to the platform wallet, then provide the transaction hash. The sender wallet becomes the key's identity. One key per wallet.",
+    "Buy a new InsumerAPI key with USDC, USDT, or BTC. No existing API key required. Send crypto to the platform wallet, then provide the transaction hash. The sender wallet becomes the key's identity. One key per wallet. USDC/USDT auto-detected on EVM/Solana. BTC on Bitcoin (converted to USD at market rate).",
   similes: [
     "PURCHASE_API_KEY",
     "GET_API_KEY",
@@ -32,13 +32,13 @@ export const buyKeyAction: Action = {
       {
         name: "user",
         content: {
-          text: "I sent 10 USDC on Base, tx hash 0xabc123. Get me an API key for my agent called 'TrustBot'.",
+          text: "I sent 10 USDC on Base, tx hash 0xabc123. Get me an API key for my agent called 'TrustBot'. (Also accepts USDT or BTC)",
         },
       } as ActionExample,
       {
         name: "assistant",
         content: {
-          text: "I'll verify your USDC payment and create your API key now.",
+          text: "I'll verify your payment and create your API key now.",
           actions: ["BUY_API_KEY"],
         },
       } as ActionExample,
@@ -80,7 +80,7 @@ export const buyKeyAction: Action = {
     } catch {
       if (callback) {
         await callback({
-          text: "I couldn't extract the purchase parameters. Please provide: transaction hash, chain (e.g. Base, Ethereum, Solana), USDC amount, and a name for your key.",
+          text: "I couldn't extract the purchase parameters. Please provide: transaction hash, chain (e.g. Base, Ethereum, Solana, Bitcoin), amount (for stablecoins), and a name for your key.",
         });
       }
       return { success: false, text: "Failed to parse purchase parameters" };
@@ -88,7 +88,7 @@ export const buyKeyAction: Action = {
 
     if (!params.txHash) {
       if (callback) {
-        await callback({ text: "Please provide the USDC transaction hash." });
+        await callback({ text: "Please provide the transaction hash." });
       }
       return { success: false, text: "No transaction hash provided" };
     }
