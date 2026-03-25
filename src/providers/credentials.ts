@@ -8,6 +8,7 @@ import type {
 const EVM_REGEX = /\b0x[a-fA-F0-9]{40}\b/g;
 const SOLANA_REGEX = /\b[1-9A-HJ-NP-Za-km-z]{32,44}\b/g;
 const XRPL_REGEX = /\br[1-9A-HJ-NP-Za-km-z]{24,34}\b/g;
+const BITCOIN_REGEX = /\b(1[a-km-zA-HJ-NP-Z1-9]{25,34}|3[a-km-zA-HJ-NP-Z1-9]{25,34}|bc1[a-z0-9]{39,59}|bc1p[a-z0-9]{58})\b/g;
 
 // Common false positives for Solana regex (transaction hashes, etc.)
 function isSolanaAddress(candidate: string): boolean {
@@ -36,12 +37,14 @@ export const walletCredentialsProvider: Provider = {
     const evmWallets = text.match(EVM_REGEX) || [];
     const solanaMatches = (text.match(SOLANA_REGEX) || []).filter(isSolanaAddress);
     const xrplWallets = text.match(XRPL_REGEX) || [];
+    const bitcoinWallets = text.match(BITCOIN_REGEX) || [];
 
-    // Filter Solana matches that overlap with EVM or XRPL
+    // Filter Solana matches that overlap with EVM, XRPL, or Bitcoin
     const evmSet = new Set(evmWallets);
     const xrplSet = new Set(xrplWallets);
+    const btcSet = new Set(bitcoinWallets);
     const solanaWallets = solanaMatches.filter(
-      (s) => !evmSet.has(s) && !xrplSet.has(s)
+      (s) => !evmSet.has(s) && !xrplSet.has(s) && !btcSet.has(s)
     );
 
     const detected: string[] = [];
@@ -53,6 +56,9 @@ export const walletCredentialsProvider: Provider = {
     }
     if (xrplWallets.length > 0) {
       detected.push(`XRPL: ${xrplWallets.join(", ")}`);
+    }
+    if (bitcoinWallets.length > 0) {
+      detected.push(`Bitcoin: ${bitcoinWallets.join(", ")}`);
     }
 
     if (detected.length === 0) {

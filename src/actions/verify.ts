@@ -13,7 +13,7 @@ import { verifyTemplate } from "../utils/templates.js";
 export const verifyWalletAction: Action = {
   name: "VERIFY_WALLET",
   description:
-    "Verify on-chain token balances, NFT ownership, EAS attestations, or Farcaster identity for a wallet across 32 blockchains. Returns ECDSA-signed privacy-preserving booleans — never exposes actual balances. Supports EVM, Solana, and XRPL.",
+    "Verify on-chain token balances, NFT ownership, EAS attestations, or Farcaster identity for a wallet across 33 blockchains. Returns ECDSA-signed privacy-preserving booleans — never exposes actual balances. Supports EVM, Solana, XRPL, and Bitcoin.",
   similes: [
     "CHECK_WALLET",
     "VERIFY_TOKENS",
@@ -131,10 +131,10 @@ export const verifyWalletAction: Action = {
     }
 
     // Validate at least one wallet and one condition
-    if (!params.wallet && !params.solanaWallet && !params.xrplWallet) {
+    if (!params.wallet && !params.solanaWallet && !params.xrplWallet && !params.bitcoinWallet) {
       if (callback) {
         await callback({
-          text: "Please provide a wallet address to verify (EVM 0x..., Solana base58, or XRPL r-address).",
+          text: "Please provide a wallet address to verify (EVM 0x..., Solana base58, XRPL r-address, or Bitcoin bc1.../1.../3...).",
         });
       }
       return { success: false, text: "No wallet address provided" };

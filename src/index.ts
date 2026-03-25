@@ -14,7 +14,7 @@ import { walletCredentialsProvider } from "./providers/credentials.js";
 export const insumerPlugin: Plugin = {
   name: "insumer",
   description:
-    "Full autonomous agent lifecycle for token-gated commerce across 32 blockchains. 10 actions: buy API key, create merchant, configure token tiers, add credits, verify wallets, trust profiles, ACP/UCP commerce, confirm payments. ECDSA-signed results, never exposes balances.",
+    "Full autonomous agent lifecycle for token-gated commerce across 33 blockchains. 10 actions: buy API key, create merchant, configure token tiers, add credits, verify wallets, trust profiles, ACP/UCP commerce, confirm payments. ECDSA-signed results, never exposes balances.",
   actions: [
     verifyWalletAction,
     checkTrustAction,

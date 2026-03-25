@@ -1,6 +1,6 @@
 # eliza-plugin-insumer
 
-ElizaOS plugin for [InsumerAPI](https://insumermodel.com) — 10 actions covering the full autonomous agent lifecycle for token-gated commerce across 32 blockchains.
+ElizaOS plugin for [InsumerAPI](https://insumermodel.com) — 10 actions covering the full autonomous agent lifecycle for token-gated commerce across 33 blockchains.
 
 An agent can go from zero to running a token-gated commerce operation with no human involvement: provision an API key with USDC, create a merchant, configure which tokens gate access, add credits, verify wallets, run ACP/UCP commerce flows, and confirm payments — all autonomously.
 
@@ -122,7 +122,7 @@ Chain: Base
 
 ### VERIFY_WALLET
 
-Verify 1-10 on-chain conditions (token balances, NFT ownership, EAS attestations, Farcaster identity) across 32 chains. Returns ECDSA-signed boolean results.
+Verify 1-10 on-chain conditions (token balances, NFT ownership, EAS attestations, Farcaster identity) across 33 chains. Returns ECDSA-signed boolean results.
 
 ```
 User: "Check if 0xd8dA... holds at least 100 UNI"

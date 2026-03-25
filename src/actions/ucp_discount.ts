@@ -14,6 +14,7 @@ interface UcpDiscountParams {
   wallet?: string;
   solanaWallet?: string;
   xrplWallet?: string;
+  bitcoinWallet?: string;
   items?: Array<{ path: string; amount: number }>;
 }
 
@@ -91,7 +92,7 @@ export const ucpDiscountAction: Action = {
       }
       return { success: false, text: "No merchant ID provided" };
     }
-    if (!params.wallet && !params.solanaWallet && !params.xrplWallet) {
+    if (!params.wallet && !params.solanaWallet && !params.xrplWallet && !params.bitcoinWallet) {
       if (callback) {
         await callback({ text: "Please provide a wallet address to check discount eligibility." });
       }

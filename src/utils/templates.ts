@@ -7,6 +7,7 @@ Extract the following as a JSON object:
 - wallet: EVM address (0x...) if present
 - solanaWallet: Solana address (base58) if present
 - xrplWallet: XRPL address (r...) if present
+- bitcoinWallet: Bitcoin address (1..., 3..., bc1q..., or bc1p...) if present
 - format: "jwt" if the user asks for a JWT token, bearer token, Wallet Auth token, or JWT format. Omit otherwise.
 - conditions: array of conditions to check, each with:
   - type: "token_balance", "nft_ownership", "eas_attestation", or "farcaster_id"
@@ -19,7 +20,7 @@ Extract the following as a JSON object:
   - label: human-readable description
   - template: compliance template name (for eas_attestation)
 
-Chain ID reference (32 supported chains):
+Chain ID reference (33 supported chains):
   Ethereum = 1, BNB Chain = 56, Base = 8453, Avalanche = 43114,
   Polygon = 137, Arbitrum = 42161, Optimism = 10, Chiliz = 88888,
   Soneium = 1868, Plume = 98866, World Chain = 480,
@@ -28,7 +29,7 @@ Chain ID reference (32 supported chains):
   Ronin = 2020, Celo = 42220, Moonbeam = 1284, Moonriver = 1285,
   Viction = 88, opBNB = 204, Unichain = 130, Ink = 57073,
   Sei = 1329, Berachain = 80094, ApeChain = 33139,
-  Solana = "solana", XRPL = "xrpl"
+  Solana = "solana", XRPL = "xrpl", Bitcoin = "bitcoin"
 
 Well-known contracts (Ethereum mainnet unless noted):
   USDC = 0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48 (6 decimals)
@@ -73,8 +74,9 @@ Extract the following as a JSON object:
 - wallet: EVM address (0x...) — required
 - solanaWallet: Solana address (base58) if mentioned
 - xrplWallet: XRPL address (r...) if mentioned
+- bitcoinWallet: Bitcoin address (1..., 3..., bc1q..., or bc1p...) if mentioned
 
-The trust profile automatically checks 17+ dimensions (stablecoins, governance tokens, NFTs, staking) for the EVM wallet. Adding solanaWallet or xrplWallet extends the profile with additional checks.
+The trust profile automatically checks 17+ dimensions (stablecoins, governance tokens, NFTs, staking) for the EVM wallet. Adding solanaWallet, xrplWallet, or bitcoinWallet extends the profile with additional checks.
 
 Respond with ONLY the JSON object, no explanation.`;
 
@@ -88,6 +90,7 @@ Extract the following as a JSON object:
   - wallet: EVM address (0x...) — required
   - solanaWallet: Solana address (base58) if mentioned for this wallet
   - xrplWallet: XRPL address (r...) if mentioned for this wallet
+  - bitcoinWallet: Bitcoin address (1..., 3..., bc1q..., or bc1p...) if mentioned for this wallet
 
 Maximum 10 wallets. Each wallet gets an independent trust profile.
 
@@ -153,7 +156,7 @@ Onboarding chain IDs (26 EVM chains + Solana + XRPL supported for token config):
   Linea = 59144, zkSync Era = 324, Blast = 81457, Celo = 42220,
   Moonbeam = 1284, opBNB = 204, Unichain = 130, Ink = 57073,
   Sei = 1329, Berachain = 80094, ApeChain = 33139,
-  Solana = "solana", XRPL = "xrpl"
+  Solana = "solana", XRPL = "xrpl", Bitcoin = "bitcoin"
 
 Well-known contracts:
   USDC on Ethereum = 0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48 (6 decimals)
@@ -194,6 +197,7 @@ Extract the following as a JSON object:
 - wallet: EVM address (0x...) if present
 - solanaWallet: Solana address (base58) if present
 - xrplWallet: XRPL address (r...) if present
+- bitcoinWallet: Bitcoin address (1..., 3..., bc1q..., or bc1p...) if present
 - items: optional array of line items, each with:
   - path: JSONPath reference (e.g. "$.line_items[0]")
   - amount: item price in cents
@@ -212,6 +216,7 @@ Extract the following as a JSON object:
 - wallet: EVM address (0x...) if present
 - solanaWallet: Solana address (base58) if present
 - xrplWallet: XRPL address (r...) if present
+- bitcoinWallet: Bitcoin address (1..., 3..., bc1q..., or bc1p...) if present
 - items: optional array of line items, each with:
   - path: JSONPath reference (e.g. "$.line_items[0]")
   - amount: item price in cents
