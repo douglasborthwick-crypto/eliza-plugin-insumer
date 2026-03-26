@@ -197,7 +197,6 @@ Extract the following as a JSON object:
 - wallet: EVM address (0x...) if present
 - solanaWallet: Solana address (base58) if present
 - xrplWallet: XRPL address (r...) if present
-- bitcoinWallet: Bitcoin address (1..., 3..., bc1q..., or bc1p...) if present
 - items: optional array of line items, each with:
   - path: JSONPath reference (e.g. "$.line_items[0]")
   - amount: item price in cents
@@ -216,7 +215,6 @@ Extract the following as a JSON object:
 - wallet: EVM address (0x...) if present
 - solanaWallet: Solana address (base58) if present
 - xrplWallet: XRPL address (r...) if present
-- bitcoinWallet: Bitcoin address (1..., 3..., bc1q..., or bc1p...) if present
 - items: optional array of line items, each with:
   - path: JSONPath reference (e.g. "$.line_items[0]")
   - amount: item price in cents

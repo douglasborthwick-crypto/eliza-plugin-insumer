@@ -1,6 +1,6 @@
 # eliza-plugin-insumer
 
-ElizaOS plugin for [InsumerAPI](https://insumermodel.com) — 10 actions covering the full autonomous agent lifecycle for token-gated commerce across 33 blockchains.
+ElizaOS plugin for [InsumerAPI](https://insumermodel.com) — 10 actions for wallet auth across 33 blockchains.
 
 An agent can go from zero to running a token-gated commerce operation with no human involvement: provision an API key with USDC, create a merchant, configure which tokens gate access, add credits, verify wallets, run ACP/UCP commerce flows, and confirm payments — all autonomously.
 
@@ -22,7 +22,7 @@ curl -s -X POST https://api.insumermodel.com/v1/keys/create \
   -d '{"email": "you@example.com", "appName": "ElizaOS Agent", "tier": "free"}' | jq .
 ```
 
-Returns an `insr_live_...` key with 10 credits and 100 calls/day. One free key per email.
+Returns an `insr_live_...` key with 100 reads/day and 10 verification credits. One free key per email.
 
 Or visit [insumermodel.com/developers](https://insumermodel.com/developers/) to get one.
 
@@ -50,12 +50,12 @@ export INSUMER_API_KEY=insr_live_your_key_here
 The 10 actions cover the complete agent lifecycle — no human required at any step:
 
 ```
-BUY_API_KEY          → Provision API key with USDC (no auth needed)
+BUY_API_KEY          → Provision API key with USDC/USDT/BTC (no auth needed)
 CREATE_MERCHANT      → Create merchant profile (100 free credits)
 CONFIGURE_TOKENS     → Set which tokens gate discounts + tier thresholds
 ADD_CREDITS          → Top up merchant credits with USDC
 VERIFY_WALLET        → Verify token/NFT/attestation conditions (1-10 per call)
-CHECK_TRUST          → Generate 17-check wallet trust profile
+CHECK_TRUST          → Generate 36-check wallet trust profile
 CHECK_TRUST_BATCH    → Profile up to 10 wallets in one call
 ACP_DISCOUNT         → Check discount in OpenAI/Stripe ACP format
 UCP_DISCOUNT         → Check discount in Google UCP format
@@ -66,7 +66,7 @@ CONFIRM_PAYMENT      → Confirm on-chain USDC payment for discount code
 
 ### BUY_API_KEY
 
-Buy a new InsumerAPI key with USDC. No existing API key required — the sender wallet from the USDC transaction becomes the key's identity. One key per wallet.
+Buy a new InsumerAPI key with USDC, USDT, or BTC. No existing API key required — the sender wallet from the transaction becomes the key's identity. One key per wallet.
 
 ```
 User: "I sent 10 USDC on Base, tx 0xabc123. Create an API key called TrustBot."
@@ -95,7 +95,7 @@ Credits: 100 (free starter credits)
 
 ### CONFIGURE_TOKENS
 
-Configure which tokens gate access to merchant discounts. Up to 8 tokens with 1-4 discount tiers each. Limited to 11 onboarding chains.
+Configure which tokens gate access to merchant discounts. Up to 8 tokens with 1-4 discount tiers each. Supports all 30 EVM chains plus Solana and XRPL.
 
 ```
 User: "Set up USDC gating for acme-coffee: Bronze at 100 (5%), Silver at 1000 (10%), Gold at 10000 (15%) on Ethereum."
@@ -107,7 +107,7 @@ Total tokens: 1/8
 
 ### ADD_CREDITS
 
-Buy merchant verification credits with USDC. Credits are consumed by discount code generation.
+Buy merchant verification credits with USDC, USDT, or BTC. Credits are consumed by discount code generation.
 
 ```
 User: "I sent 20 USDC on Base (tx 0xabc123) to top up credits for acme-coffee."
@@ -135,7 +135,7 @@ Attestation ATST-A7C3E1B2D4F56789: PASS
 
 ### CHECK_TRUST
 
-Generate a structured wallet trust profile with 17+ checks across stablecoins, governance tokens, NFTs, and staking. Optional cross-chain with Solana and XRPL wallets.
+Generate a structured wallet trust profile with 36 base checks (up to 40 with Solana, XRPL, and Bitcoin) across stablecoins, governance tokens, NFTs, and staking. Optional cross-chain with Solana and XRPL wallets.
 
 ```
 User: "What's the trust profile for 0xd8dA...?"
@@ -146,7 +146,7 @@ Trust Profile TRST-B2K4F
   governance: 2/4 passed
   nfts: 1/3 passed
   staking: 2/3 passed
-Overall: 10/17 checks passed
+Overall: 22/36 checks passed
 ```
 
 ### CHECK_TRUST_BATCH
@@ -158,9 +158,9 @@ User: "Check trust for these wallets: 0xd8dA..., 0xAb58..., 0x1234..."
 Agent: [calls CHECK_TRUST_BATCH → POST /v1/trust/batch]
 
 Batch Trust: 3 profiles
-  0xd8dA...: 10/17 checks passed (TRST-B2K4F)
-  0xAb58...: 7/17 checks passed (TRST-C3L5G)
-  0x1234...: 3/17 checks passed (TRST-D4M6H)
+  0xd8dA...: 22/36 checks passed (TRST-B2K4F)
+  0xAb58...: 14/36 checks passed (TRST-C3L5G)
+  0x1234...: 6/36 checks passed (TRST-D4M6H)
 ```
 
 ### ACP_DISCOUNT
@@ -217,21 +217,22 @@ If the API cannot reach one or more data sources after retries, actions return `
 
 **Important:** `rpc_failure` is NOT a verification failure. Do not treat it as `pass: false`. It means the data source was temporarily unavailable and the API refused to sign an unverified result.
 
-## Supported Chains (32)
+## Supported Chains (33)
 
-30 EVM chains + Solana + XRP Ledger. Includes Ethereum, Base, Polygon, Arbitrum, Optimism, BNB Chain, Avalanche, and 23 more. [Full list →](https://insumermodel.com/developers/api-reference/)
+30 EVM chains + Solana + XRP Ledger + Bitcoin. Includes Ethereum, Base, Polygon, Arbitrum, Optimism, BNB Chain, Avalanche, and 23 more. [Full list →](https://insumermodel.com/developers/api-reference/)
 
 ## Pricing
 
-**Tiers:** Free (10 credits) | Pro $9/mo (10,000/day) | Enterprise $29/mo (100,000/day)
+**Tiers:** Free (100 reads/day, 10 credits) | Pro $9/mo (10,000/day) | Enterprise $29/mo (100,000/day)
 
-**USDC volume discounts:** $5–$99 = $0.04/call (25 credits/$1) · $100–$499 = $0.03 (33/$1, 25% off) · $500+ = $0.02 (50/$1, 50% off)
+**Volume discounts:** $5–$99 = $0.04/call (25 credits/$1) · $100–$499 = $0.03 (33/$1, 25% off) · $500+ = $0.02 (50/$1, 50% off)
 
-**Platform wallets (USDC only):**
-- **EVM:** `0xAd982CB19aCCa2923Df8F687C0614a7700255a23`
-- **Solana:** `6a1mLjefhvSJX1sEX8PTnionbE9DqoYjU6F6bNkT4Ydr`
+**Platform wallets:**
+- **EVM (USDC/USDT):** `0xAd982CB19aCCa2923Df8F687C0614a7700255a23`
+- **Solana (USDC/USDT):** `6a1mLjefhvSJX1sEX8PTnionbE9DqoYjU6F6bNkT4Ydr`
+- **Bitcoin:** `bc1qg7qnerdhlmdn899zemtez5tcx2a2snc0dt9dt0`
 
-**Supported USDC chains:** Ethereum, Base, Polygon, Arbitrum, Optimism, BNB Chain, Avalanche, Solana. USDC sent on unsupported chains cannot be recovered. All purchases are final and non-refundable. [Full pricing →](https://insumermodel.com/pricing/)
+**Supported payment chains:** Ethereum, Base, Polygon, Arbitrum, Optimism, BNB Chain, Avalanche, Solana, Bitcoin. Tokens sent on unsupported chains cannot be recovered. All purchases are final and non-refundable. [Full pricing →](https://insumermodel.com/pricing/)
 
 ## Also Available As
 
@@ -250,5 +251,3 @@ If the API cannot reach one or more data sources after retries, actions return `
 MIT
 
 ---
-
-If you find this useful, please star the repo — it helps others discover it.

@@ -14,7 +14,6 @@ interface AcpDiscountParams {
   wallet?: string;
   solanaWallet?: string;
   xrplWallet?: string;
-  bitcoinWallet?: string;
   items?: Array<{ path: string; amount: number }>;
 }
 
@@ -93,7 +92,7 @@ export const acpDiscountAction: Action = {
       }
       return { success: false, text: "No merchant ID provided" };
     }
-    if (!params.wallet && !params.solanaWallet && !params.xrplWallet && !params.bitcoinWallet) {
+    if (!params.wallet && !params.solanaWallet && !params.xrplWallet) {
       if (callback) {
         await callback({ text: "Please provide a wallet address to check discount eligibility." });
       }
