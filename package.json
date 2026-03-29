@@ -1,7 +1,7 @@
 {
   "name": "eliza-plugin-insumer",
   "version": "1.3.3",
-  "description": "ElizaOS plugin for InsumerAPI — 10 actions covering the full autonomous agent lifecycle: buy API key, create merchant, configure token tiers, add credits, verify wallets, trust profiles (40 checks across 24 chains incl. Solana, XRPL, Bitcoin), ACP/UCP commerce, confirm payments. ECDSA-signed results across 33 blockchains.",
+  "description": "ElizaOS plugin for InsumerAPI — condition-based access for autonomous agents. 10 actions: buy API key, create merchant, configure conditions, add credits, verify wallets, trust profiles (40 checks across 24 chains incl. Solana, XRPL, Bitcoin), ACP/UCP commerce, confirm payments. ECDSA-signed results across 33 blockchains.",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -21,6 +21,7 @@
     "prepublishOnly": "npm run build"
   },
   "keywords": [
+    "condition-based-access",
     "elizaos",
     "eliza",
     "plugin",
