@@ -1,8 +1,8 @@
 # eliza-plugin-insumer
 
-ElizaOS plugin for [InsumerAPI](https://insumermodel.com) — 10 actions for wallet auth across 33 blockchains.
+ElizaOS plugin for [InsumerAPI](https://insumermodel.com) — 10 actions for condition-based access across 33 blockchains.
 
-An agent can go from zero to running a token-gated commerce operation with no human involvement: provision an API key with USDC, create a merchant, configure which tokens gate access, add credits, verify wallets, run ACP/UCP commerce flows, and confirm payments — all autonomously.
+An agent can go from zero to running a condition-based commerce operation with no human involvement: provision an API key with USDC, create a merchant, configure which tokens gate access, add credits, verify wallets, run ACP/UCP commerce flows, and confirm payments — all autonomously.
 
 ## Install
 
