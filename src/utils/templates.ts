@@ -102,18 +102,20 @@ Recent messages:
 {{recentMessages}}
 
 Extract the following as a JSON object:
-- txHash: the USDC transaction hash
-- chainId: chain where USDC was sent (number or "solana")
-- amount: USDC amount sent (number, minimum 5)
+- txHash: the USDC/USDT/BTC transaction hash
+- chainId: chain where crypto was sent (number, "solana", or "bitcoin")
+- amount: amount sent (number, minimum 5 USD equivalent)
 - appName: name for the API key
 
-Chain IDs for USDC payments:
+Chain IDs for payments:
   Ethereum = 1, Base = 8453, Polygon = 137, Arbitrum = 42161,
-  Optimism = 10, BNB Chain = 56, Avalanche = 43114, Solana = "solana"
+  Optimism = 10, BNB Chain = 56, Avalanche = 43114, Solana = "solana",
+  Bitcoin = "bitcoin"
 
 Platform wallets:
   EVM: 0xAd982CB19aCCa2923Df8F687C0614a7700255a23
   Solana: 6a1mLjefhvSJX1sEX8PTnionbE9DqoYjU6F6bNkT4Ydr
+  Bitcoin: bc1qg7qnerdhlmdn899zemtez5tcx2a2snc0dt9dt0
 
 Respond with ONLY the JSON object, no explanation.`;
 
@@ -145,7 +147,7 @@ Extract the following as a JSON object:
   - tiers: array of 1-4 tiers, each with:
     - name: tier name (e.g. "Bronze", "Silver", "Gold")
     - threshold: minimum token balance for this tier
-    - discount: discount percentage (1-100)
+    - discount: discount percentage (1-50)
 - partnerTokens: array of additional token configs (same structure as ownToken), default []
 
 Onboarding chain IDs (26 EVM chains + Solana + XRPL supported for token config):
@@ -177,13 +179,15 @@ Extract the following as a JSON object:
 - amount: USDC amount sent (number, minimum 5)
 - updateWallet: true only if the user explicitly wants to change their registered wallet (default false)
 
-Chain IDs for USDC payments:
+Chain IDs for payments:
   Ethereum = 1, Base = 8453, Polygon = 137, Arbitrum = 42161,
-  Optimism = 10, BNB Chain = 56, Avalanche = 43114, Solana = "solana"
+  Optimism = 10, BNB Chain = 56, Avalanche = 43114, Solana = "solana",
+  Bitcoin = "bitcoin"
 
 Platform wallets:
   EVM: 0xAd982CB19aCCa2923Df8F687C0614a7700255a23
   Solana: 6a1mLjefhvSJX1sEX8PTnionbE9DqoYjU6F6bNkT4Ydr
+  Bitcoin: bc1qg7qnerdhlmdn899zemtez5tcx2a2snc0dt9dt0
 
 Respond with ONLY the JSON object, no explanation.`;
 

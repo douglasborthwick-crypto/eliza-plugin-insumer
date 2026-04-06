@@ -104,12 +104,16 @@ export const addCreditsAction: Action = {
     }
 
     const data = result.data as Record<string, unknown>;
+    const isBtc = data.btcPaid !== undefined;
+    const paymentLine = isBtc
+      ? `BTC paid: ${data.btcPaid} (≈$${data.usdEquivalent} at $${data.btcPrice})`
+      : `USDC paid: ${data.usdcPaid}`;
     const text = [
       `Credits added to ${merchantId}!`,
       ``,
       `Credits added: ${data.creditsAdded}`,
       `Total credits: ${data.totalCredits}`,
-      `USDC paid: ${data.usdcPaid}`,
+      paymentLine,
       `Chain: ${data.chainName}`,
     ].join("\n");
 
