@@ -1,4 +1,4 @@
-# eliza-plugin-insumer
+# @insumermodel/plugin-eliza
 
 ElizaOS plugin for [InsumerAPI](https://insumermodel.com) — 10 actions for condition-based access across 33 blockchains.
 
@@ -7,7 +7,7 @@ An agent can go from zero to running a condition-based commerce operation with n
 ## Install
 
 ```bash
-npm install eliza-plugin-insumer
+npm install @insumermodel/plugin-eliza
 ```
 
 ## Configure
@@ -30,7 +30,7 @@ Or visit [insumermodel.com/developers](https://insumermodel.com/developers/) to 
 
 ```json
 {
-  "plugins": ["eliza-plugin-insumer"],
+  "plugins": ["@insumermodel/plugin-eliza"],
   "settings": {
     "secrets": {
       "INSUMER_API_KEY": "insr_live_your_key_here"
