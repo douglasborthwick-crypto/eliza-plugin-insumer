@@ -11,7 +11,7 @@ import { buyKeyTemplate } from "../utils/templates.js";
 
 interface BuyKeyParams {
   txHash: string;
-  chainId: number | "solana" | "bitcoin";
+  chainId: number | "solana" | "bitcoin" | "tron";
   amount?: number;
   appName: string;
 }

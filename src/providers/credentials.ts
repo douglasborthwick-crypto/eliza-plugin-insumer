@@ -6,9 +6,12 @@ import type {
 
 // Wallet address patterns
 const EVM_REGEX = /\b0x[a-fA-F0-9]{40}\b/g;
+const SUI_REGEX = /\b0x[a-fA-F0-9]{64}\b/g;
 const SOLANA_REGEX = /\b[1-9A-HJ-NP-Za-km-z]{32,44}\b/g;
 const XRPL_REGEX = /\br[1-9A-HJ-NP-Za-km-z]{24,34}\b/g;
 const BITCOIN_REGEX = /\b(1[a-km-zA-HJ-NP-Z1-9]{25,34}|3[a-km-zA-HJ-NP-Z1-9]{25,34}|bc1[a-z0-9]{39,59}|bc1p[a-z0-9]{58})\b/g;
+const TRON_REGEX = /\bT[1-9A-HJ-NP-Za-km-z]{33}\b/g;
+const STELLAR_REGEX = /\bG[A-Z2-7]{55}\b/g;
 
 // Common false positives for Solana regex (transaction hashes, etc.)
 function isSolanaAddress(candidate: string): boolean {
@@ -34,17 +37,30 @@ export const walletCredentialsProvider: Provider = {
 
     const text = message.content.text || "";
 
-    const evmWallets = text.match(EVM_REGEX) || [];
+    // Sui (0x + 64 hex) must be matched before EVM so 64-char hex isn't truncated to a 40-char EVM match.
+    const suiWallets = text.match(SUI_REGEX) || [];
+    const suiSet = new Set(suiWallets);
+    const evmWallets = (text.match(EVM_REGEX) || []).filter((w) => !suiSet.has(w));
     const solanaMatches = (text.match(SOLANA_REGEX) || []).filter(isSolanaAddress);
     const xrplWallets = text.match(XRPL_REGEX) || [];
     const bitcoinWallets = text.match(BITCOIN_REGEX) || [];
+    const tronWallets = text.match(TRON_REGEX) || [];
+    const stellarWallets = text.match(STELLAR_REGEX) || [];
 
-    // Filter Solana matches that overlap with EVM, XRPL, or Bitcoin
+    // Filter Solana matches that overlap with other detected sets
     const evmSet = new Set(evmWallets);
     const xrplSet = new Set(xrplWallets);
     const btcSet = new Set(bitcoinWallets);
+    const tronSet = new Set(tronWallets);
+    const stellarSet = new Set(stellarWallets);
     const solanaWallets = solanaMatches.filter(
-      (s) => !evmSet.has(s) && !xrplSet.has(s) && !btcSet.has(s)
+      (s) =>
+        !evmSet.has(s) &&
+        !xrplSet.has(s) &&
+        !btcSet.has(s) &&
+        !tronSet.has(s) &&
+        !stellarSet.has(s) &&
+        !suiSet.has(s)
     );
 
     const detected: string[] = [];
@@ -59,6 +75,15 @@ export const walletCredentialsProvider: Provider = {
     }
     if (bitcoinWallets.length > 0) {
       detected.push(`Bitcoin: ${bitcoinWallets.join(", ")}`);
+    }
+    if (tronWallets.length > 0) {
+      detected.push(`Tron: ${tronWallets.join(", ")}`);
+    }
+    if (stellarWallets.length > 0) {
+      detected.push(`Stellar: ${stellarWallets.join(", ")}`);
+    }
+    if (suiWallets.length > 0) {
+      detected.push(`Sui: ${suiWallets.join(", ")}`);
     }
 
     if (detected.length === 0) {

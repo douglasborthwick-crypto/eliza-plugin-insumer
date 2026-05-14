@@ -8,19 +8,23 @@ Extract the following as a JSON object:
 - solanaWallet: Solana address (base58) if present
 - xrplWallet: XRPL address (r...) if present
 - bitcoinWallet: Bitcoin address (1..., 3..., bc1q..., or bc1p...) if present
+- tronWallet: Tron address (T-prefixed base58, 34 chars) if present
+- stellarWallet: Stellar address (G-prefixed, 56 chars) if present
+- suiWallet: Sui address (0x + 64 hex chars) if present
 - format: "jwt" if the user asks for a JWT token, bearer token, Wallet Auth token, or JWT format. Omit otherwise.
 - conditions: array of conditions to check, each with:
   - type: "token_balance", "nft_ownership", "eas_attestation", or "farcaster_id"
   - contractAddress: token/NFT contract address (use the reference table below)
-  - chainId: chain ID number or "solana" or "xrpl"
+  - chainId: chain ID number or "solana", "xrpl", "bitcoin", "tron", "stellar", or "sui"
   - threshold: minimum balance (for token_balance)
   - decimals: token decimals (for token_balance)
   - currency: XRPL trust line currency code (e.g. "RLUSD", "USDC"). Required for XRPL trust line tokens.
+  - assetCode: Stellar asset code (e.g. "USDC", "BENJI"). Required for Stellar trust line tokens.
   - taxon: XRPL NFT taxon number (optional, for nft_ownership on XRPL only)
   - label: human-readable description
   - template: compliance template name (for eas_attestation)
 
-Chain ID reference (33 supported chains):
+Chain ID reference (37 supported chains):
   Ethereum = 1, BNB Chain = 56, Base = 8453, Avalanche = 43114,
   Polygon = 137, Arbitrum = 42161, Optimism = 10, Chiliz = 88888,
   Soneium = 1868, Plume = 98866, World Chain = 480,
@@ -28,8 +32,9 @@ Chain ID reference (33 supported chains):
   Linea = 59144, zkSync Era = 324, Blast = 81457, Taiko = 167000,
   Ronin = 2020, Celo = 42220, Moonbeam = 1284, Moonriver = 1285,
   Viction = 88, opBNB = 204, Unichain = 130, Ink = 57073,
-  Sei = 1329, Berachain = 80094, ApeChain = 33139,
-  Solana = "solana", XRPL = "xrpl", Bitcoin = "bitcoin"
+  Sei = 1329, Berachain = 80094, ApeChain = 33139, XDC = 50,
+  Solana = "solana", XRPL = "xrpl", Bitcoin = "bitcoin",
+  Tron = "tron", Stellar = "stellar", Sui = "sui"
 
 Well-known contracts (Ethereum mainnet unless noted):
   USDC = 0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48 (6 decimals)
@@ -51,6 +56,19 @@ XRPL tokens (use chainId "xrpl"):
   XRP native = contractAddress "native"
   RLUSD = contractAddress "rMxCKbEDwqr76QuheSUMdEGf4B9xJ8m5De", currency "RLUSD"
   USDC on XRPL = contractAddress "rGm7WCVp9gb4jZHWTEtGUr4dd74z2XuWhE", currency "USDC"
+
+Tron tokens (use chainId "tron"):
+  TRX native = contractAddress "native"
+  USDT-TRC20 = contractAddress "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t", decimals 6
+
+Stellar tokens (use chainId "stellar", assetCode required for trustlines):
+  XLM native = contractAddress "native"
+  USDC on Stellar = contractAddress "GA5ZSEJYB37JRC5AVCIA5MOP4RHTM335X2KGX3IHOJAPP5RE34K4KZVN", assetCode "USDC"
+  BENJI (Franklin) = contractAddress "GBJW74JRHIIIYC3X3J5VKLR2CR4UJHKO76V5J5SAYTUFAUE7PJBKCT5R", assetCode "BENJI"
+
+Sui tokens (use chainId "sui"):
+  SUI native = contractAddress "native"
+  USDC on Sui = contractAddress "0xdba34672e30cb065b1f93e3ab55318768fd6fef66c15942c9f7cb846e2f900e7::usdc::USDC", decimals 6
 
 Compliance templates (for eas_attestation, no contractAddress needed):
   "coinbase_verified_account" — KYC on Base
@@ -75,8 +93,11 @@ Extract the following as a JSON object:
 - solanaWallet: Solana address (base58) if mentioned
 - xrplWallet: XRPL address (r...) if mentioned
 - bitcoinWallet: Bitcoin address (1..., 3..., bc1q..., or bc1p...) if mentioned
+- tronWallet: Tron address (T-prefixed base58, 34 chars) if mentioned
+- stellarWallet: Stellar address (G-prefixed, 56 chars) if mentioned
+- suiWallet: Sui address (0x + 64 hex chars) if mentioned
 
-The trust profile automatically checks 17+ dimensions (stablecoins, governance tokens, NFTs, staking) for the EVM wallet. Adding solanaWallet, xrplWallet, or bitcoinWallet extends the profile with additional checks.
+The trust profile runs up to 49 checks across 27 chains. The 38 base checks (stablecoins, governance tokens, NFTs, staking) all read the EVM wallet. Adding solanaWallet, xrplWallet, bitcoinWallet, tronWallet, stellarWallet, or suiWallet extends the profile with additional checks on those chains.
 
 Respond with ONLY the JSON object, no explanation.`;
 
@@ -91,6 +112,9 @@ Extract the following as a JSON object:
   - solanaWallet: Solana address (base58) if mentioned for this wallet
   - xrplWallet: XRPL address (r...) if mentioned for this wallet
   - bitcoinWallet: Bitcoin address (1..., 3..., bc1q..., or bc1p...) if mentioned for this wallet
+  - tronWallet: Tron address (T-prefixed base58) if mentioned for this wallet
+  - stellarWallet: Stellar address (G-prefixed) if mentioned for this wallet
+  - suiWallet: Sui address (0x + 64 hex chars) if mentioned for this wallet
 
 Maximum 10 wallets. Each wallet gets an independent trust profile.
 
@@ -103,19 +127,20 @@ Recent messages:
 
 Extract the following as a JSON object:
 - txHash: the USDC/USDT/BTC transaction hash
-- chainId: chain where crypto was sent (number, "solana", or "bitcoin")
+- chainId: chain where crypto was sent (number, "solana", "bitcoin", or "tron")
 - amount: amount sent (number, minimum 5 USD equivalent)
 - appName: name for the API key
 
 Chain IDs for payments:
   Ethereum = 1, Base = 8453, Polygon = 137, Arbitrum = 42161,
   Optimism = 10, BNB Chain = 56, Avalanche = 43114, Solana = "solana",
-  Bitcoin = "bitcoin"
+  Bitcoin = "bitcoin", Tron = "tron"
 
 Platform wallets:
   EVM: 0xAd982CB19aCCa2923Df8F687C0614a7700255a23
   Solana: 6a1mLjefhvSJX1sEX8PTnionbE9DqoYjU6F6bNkT4Ydr
   Bitcoin: bc1qg7qnerdhlmdn899zemtez5tcx2a2snc0dt9dt0
+  Tron: TC5yvwkAMakkXtUxYiu2Yn1xbBcwYuD6cn
 
 Respond with ONLY the JSON object, no explanation.`;
 
@@ -150,15 +175,15 @@ Extract the following as a JSON object:
     - discount: discount percentage (1-50)
 - partnerTokens: array of additional token configs (same structure as ownToken), default []
 
-Onboarding chain IDs (26 EVM chains + Solana + XRPL supported for token config):
+Onboarding chain IDs (EVM chains + Solana + XRPL supported for token config):
   Ethereum = 1, BNB Chain = 56, Base = 8453, Avalanche = 43114,
   Polygon = 137, Arbitrum = 42161, Optimism = 10, Chiliz = 88888,
   Soneium = 1868, Plume = 98866, World Chain = 480,
   Sonic = 146, Gnosis = 100, Mantle = 5000, Scroll = 534352,
   Linea = 59144, zkSync Era = 324, Blast = 81457, Celo = 42220,
   Moonbeam = 1284, opBNB = 204, Unichain = 130, Ink = 57073,
-  Sei = 1329, Berachain = 80094, ApeChain = 33139,
-  Solana = "solana", XRPL = "xrpl", Bitcoin = "bitcoin"
+  Sei = 1329, Berachain = 80094, ApeChain = 33139, XDC = 50,
+  Solana = "solana", XRPL = "xrpl"
 
 Well-known contracts:
   USDC on Ethereum = 0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48 (6 decimals)
@@ -174,20 +199,21 @@ Recent messages:
 
 Extract the following as a JSON object:
 - merchantId: the merchant ID to add credits to (required)
-- txHash: the USDC transaction hash (required)
-- chainId: chain where USDC was sent (number or "solana")
-- amount: USDC amount sent (number, minimum 5)
+- txHash: the USDC/USDT/BTC transaction hash (required)
+- chainId: chain where crypto was sent (number, "solana", "bitcoin", or "tron")
+- amount: amount sent (number, minimum 5 USD equivalent)
 - updateWallet: true only if the user explicitly wants to change their registered wallet (default false)
 
 Chain IDs for payments:
   Ethereum = 1, Base = 8453, Polygon = 137, Arbitrum = 42161,
   Optimism = 10, BNB Chain = 56, Avalanche = 43114, Solana = "solana",
-  Bitcoin = "bitcoin"
+  Bitcoin = "bitcoin", Tron = "tron"
 
 Platform wallets:
   EVM: 0xAd982CB19aCCa2923Df8F687C0614a7700255a23
   Solana: 6a1mLjefhvSJX1sEX8PTnionbE9DqoYjU6F6bNkT4Ydr
   Bitcoin: bc1qg7qnerdhlmdn899zemtez5tcx2a2snc0dt9dt0
+  Tron: TC5yvwkAMakkXtUxYiu2Yn1xbBcwYuD6cn
 
 Respond with ONLY the JSON object, no explanation.`;
 
@@ -201,6 +227,10 @@ Extract the following as a JSON object:
 - wallet: EVM address (0x...) if present
 - solanaWallet: Solana address (base58) if present
 - xrplWallet: XRPL address (r...) if present
+- bitcoinWallet: Bitcoin address (1..., 3..., bc1q..., or bc1p...) if present
+- tronWallet: Tron address (T-prefixed base58) if present
+- stellarWallet: Stellar address (G-prefixed) if present
+- suiWallet: Sui address (0x + 64 hex chars) if present
 - items: optional array of line items, each with:
   - path: JSONPath reference (e.g. "$.line_items[0]")
   - amount: item price in cents
@@ -219,6 +249,10 @@ Extract the following as a JSON object:
 - wallet: EVM address (0x...) if present
 - solanaWallet: Solana address (base58) if present
 - xrplWallet: XRPL address (r...) if present
+- bitcoinWallet: Bitcoin address (1..., 3..., bc1q..., or bc1p...) if present
+- tronWallet: Tron address (T-prefixed base58) if present
+- stellarWallet: Stellar address (G-prefixed) if present
+- suiWallet: Sui address (0x + 64 hex chars) if present
 - items: optional array of line items, each with:
   - path: JSONPath reference (e.g. "$.line_items[0]")
   - amount: item price in cents

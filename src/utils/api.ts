@@ -12,10 +12,11 @@ export interface ApiResponse {
 export interface AttestCondition {
   type: "token_balance" | "nft_ownership" | "eas_attestation" | "farcaster_id";
   contractAddress?: string;
-  chainId?: number | "solana" | "xrpl" | "bitcoin";
+  chainId?: number | "solana" | "xrpl" | "bitcoin" | "tron" | "stellar" | "sui";
   threshold?: number;
   decimals?: number;
   currency?: string;
+  assetCode?: string;
   taxon?: number;
   label?: string;
   schemaId?: string;
@@ -29,6 +30,9 @@ export interface AttestParams {
   solanaWallet?: string;
   xrplWallet?: string;
   bitcoinWallet?: string;
+  tronWallet?: string;
+  stellarWallet?: string;
+  suiWallet?: string;
   proof?: "merkle";
   format?: "jwt";
   conditions: AttestCondition[];
@@ -39,6 +43,9 @@ export interface TrustParams {
   solanaWallet?: string;
   xrplWallet?: string;
   bitcoinWallet?: string;
+  tronWallet?: string;
+  stellarWallet?: string;
+  suiWallet?: string;
   proof?: "merkle";
 }
 
@@ -48,6 +55,9 @@ export interface BatchTrustParams {
     solanaWallet?: string;
     xrplWallet?: string;
     bitcoinWallet?: string;
+    tronWallet?: string;
+    stellarWallet?: string;
+    suiWallet?: string;
   }>;
   proof?: "merkle";
 }

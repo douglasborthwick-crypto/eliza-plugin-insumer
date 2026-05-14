@@ -1,6 +1,6 @@
 # @insumermodel/plugin-eliza
 
-ElizaOS plugin for [InsumerAPI](https://insumermodel.com) — 10 actions for condition-based access across 33 blockchains.
+ElizaOS plugin for [InsumerAPI](https://insumermodel.com) — 10 actions for condition-based access across 37 blockchains.
 
 An agent can go from zero to running a condition-based commerce operation with no human involvement: provision an API key with USDC, create a merchant, configure which tokens gate access, add credits, verify wallets, run ACP/UCP commerce flows, and confirm payments — all autonomously.
 
@@ -55,7 +55,7 @@ CREATE_MERCHANT      → Create merchant profile (100 free credits)
 CONFIGURE_TOKENS     → Set which tokens gate discounts + tier thresholds
 ADD_CREDITS          → Top up merchant credits with USDC
 VERIFY_WALLET        → Verify token/NFT/attestation conditions (1-10 per call)
-CHECK_TRUST          → Generate 36-check wallet trust profile
+CHECK_TRUST          → Generate wallet trust profile (up to 49 checks across 27 chains)
 CHECK_TRUST_BATCH    → Profile up to 10 wallets in one call
 ACP_DISCOUNT         → Check discount in OpenAI/Stripe ACP format
 UCP_DISCOUNT         → Check discount in Google UCP format
@@ -95,7 +95,7 @@ Credits: 100 (free starter credits)
 
 ### CONFIGURE_TOKENS
 
-Configure which tokens gate access to merchant discounts. Up to 8 tokens with 1-4 discount tiers each. Supports all 30 EVM chains plus Solana and XRPL.
+Configure which tokens gate access to merchant discounts. Up to 8 tokens with 1-4 discount tiers each. Supports EVM chains (Ethereum, Base, Polygon, Arbitrum, Optimism, and more) plus Solana and XRPL.
 
 ```
 User: "Set up USDC gating for acme-coffee: Bronze at 100 (5%), Silver at 1000 (10%), Gold at 10000 (15%) on Ethereum."
@@ -122,7 +122,7 @@ Chain: Base
 
 ### VERIFY_WALLET
 
-Verify 1-10 on-chain conditions (token balances, NFT ownership, EAS attestations, Farcaster identity) across 33 chains. Returns ECDSA-signed boolean results.
+Verify 1-10 on-chain conditions (token balances, NFT ownership, EAS attestations, Farcaster identity) across 37 chains. Returns ECDSA-signed boolean results.
 
 ```
 User: "Check if 0xd8dA... holds at least 100 UNI"
@@ -135,7 +135,7 @@ Attestation ATST-A7C3E1B2D4F56789: PASS
 
 ### CHECK_TRUST
 
-Generate a structured wallet trust profile with 36 base checks (up to 40 with Solana, XRPL, and Bitcoin) across stablecoins, governance tokens, NFTs, and staking. Optional cross-chain with Solana and XRPL wallets.
+Generate a structured wallet trust profile with up to 49 checks across 27 chains (stablecoins, governance tokens, NFTs, staking, institutional issuances). Optional cross-chain with Solana, XRPL, Bitcoin, Tron, Stellar, and Sui wallets.
 
 ```
 User: "What's the trust profile for 0xd8dA...?"
@@ -146,7 +146,7 @@ Trust Profile TRST-B2K4F
   governance: 2/4 passed
   nfts: 1/3 passed
   staking: 2/3 passed
-Overall: 22/36 checks passed
+Overall: 22/38 checks passed
 ```
 
 ### CHECK_TRUST_BATCH
@@ -158,9 +158,9 @@ User: "Check trust for these wallets: 0xd8dA..., 0xAb58..., 0x1234..."
 Agent: [calls CHECK_TRUST_BATCH → POST /v1/trust/batch]
 
 Batch Trust: 3 profiles
-  0xd8dA...: 22/36 checks passed (TRST-B2K4F)
-  0xAb58...: 14/36 checks passed (TRST-C3L5G)
-  0x1234...: 6/36 checks passed (TRST-D4M6H)
+  0xd8dA...: 22/38 checks passed (TRST-B2K4F)
+  0xAb58...: 14/38 checks passed (TRST-C3L5G)
+  0x1234...: 6/38 checks passed (TRST-D4M6H)
 ```
 
 ### ACP_DISCOUNT
@@ -209,7 +209,7 @@ The VERIFY_WALLET action supports `format: "jwt"` when the user requests a JWT o
 
 ## Provider: WALLET_CREDENTIALS
 
-Automatically detects wallet addresses (EVM, Solana, XRPL) in conversation and signals that verification actions are available. Dynamic — only activates when wallet patterns are found.
+Automatically detects wallet addresses (EVM, Solana, XRPL, Bitcoin, Tron, Stellar, Sui) in conversation and signals that verification actions are available. Dynamic — only activates when wallet patterns are found.
 
 ## Handling `rpc_failure` Errors
 
@@ -217,9 +217,9 @@ If the API cannot reach one or more data sources after retries, actions return `
 
 **Important:** `rpc_failure` is NOT a verification failure. Do not treat it as `pass: false`. It means the data source was temporarily unavailable and the API refused to sign an unverified result.
 
-## Supported Chains (33)
+## Supported Chains (37)
 
-30 EVM chains + Solana + XRP Ledger + Bitcoin. Includes Ethereum, Base, Polygon, Arbitrum, Optimism, BNB Chain, Avalanche, and 23 more. [Full list →](https://insumermodel.com/developers/api-reference/)
+31 EVM chains + Solana + XRP Ledger + Bitcoin + Tron + Stellar + Sui. Includes Ethereum, Base, Polygon, Arbitrum, Optimism, BNB Chain, Avalanche, XDC, and 23 more EVM chains. [Full list →](https://insumermodel.com/developers/api-reference/)
 
 ## Pricing
 
@@ -232,7 +232,7 @@ If the API cannot reach one or more data sources after retries, actions return `
 - **Solana (USDC/USDT):** `6a1mLjefhvSJX1sEX8PTnionbE9DqoYjU6F6bNkT4Ydr`
 - **Bitcoin:** `bc1qg7qnerdhlmdn899zemtez5tcx2a2snc0dt9dt0`
 
-**Supported payment chains:** Ethereum, Base, Polygon, Arbitrum, Optimism, BNB Chain, Avalanche, Solana, Bitcoin. Tokens sent on unsupported chains cannot be recovered. All purchases are final and non-refundable. [Full pricing →](https://insumermodel.com/pricing/)
+**Supported payment chains:** Ethereum, Base, Polygon, Arbitrum, Optimism, BNB Chain, Avalanche, Solana, Bitcoin, Tron (USDT-TRC20). Tokens sent on unsupported chains cannot be recovered. All purchases are final and non-refundable. [Full pricing →](https://insumermodel.com/pricing/)
 
 ## Also Available As
 

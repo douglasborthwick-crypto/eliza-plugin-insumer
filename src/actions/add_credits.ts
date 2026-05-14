@@ -12,7 +12,7 @@ import { addCreditsTemplate } from "../utils/templates.js";
 interface AddCreditsParams {
   merchantId: string;
   txHash: string;
-  chainId: number | "solana" | "bitcoin";
+  chainId: number | "solana" | "bitcoin" | "tron";
   amount?: number;
   updateWallet?: boolean;
 }
