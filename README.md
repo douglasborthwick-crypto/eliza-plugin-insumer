@@ -12,9 +12,9 @@ npm install @insumermodel/plugin-eliza
 
 ## Configure
 
-### 1. Get a free API key (instant, no credit card)
+### 1. Get a key — no signup, no dashboard, no password
 
-Generate one from your terminal — no browser needed:
+Two paths. Both return an `insr_live_...` key instantly with 100 reads/day and 10 verification credits. One free key per email.
 
 ```bash
 curl -s -X POST https://api.insumermodel.com/v1/keys/create \
@@ -22,9 +22,7 @@ curl -s -X POST https://api.insumermodel.com/v1/keys/create \
   -d '{"email": "you@example.com", "appName": "ElizaOS Agent", "tier": "free"}' | jq .
 ```
 
-Returns an `insr_live_...` key with 100 reads/day and 10 verification credits. One free key per email.
-
-Or visit [insumermodel.com/developers](https://insumermodel.com/developers/) to get one.
+Or enter your email on [insumermodel.com](https://insumermodel.com/?utm_source=npm-eliza-plugin-insumer) — the key appears inline. Already have a key? Manage it at [insumermodel.com/developers/account/](https://insumermodel.com/developers/account/?utm_source=npm-eliza-plugin-insumer).
 
 ### 2. Add to your character file
 
