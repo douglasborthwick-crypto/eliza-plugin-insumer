@@ -22,7 +22,7 @@ curl -s -X POST https://api.insumermodel.com/v1/keys/create \
   -d '{"email": "you@example.com", "appName": "ElizaOS Agent", "tier": "free"}' | jq .
 ```
 
-Or enter your email on [insumermodel.com](https://insumermodel.com/?utm_source=npm-eliza-plugin-insumer) — the key appears inline. Already have a key? Manage it at [insumermodel.com/developers/account/](https://insumermodel.com/developers/account/?utm_source=npm-eliza-plugin-insumer).
+Or enter your email on [insumermodel.com](https://insumermodel.com/?utm_source=npm-insumermodel-plugin-eliza) — the key appears inline. Already have a key? Manage it at [insumermodel.com/developers/account/](https://insumermodel.com/developers/account/?utm_source=npm-insumermodel-plugin-eliza).
 
 ### 2. Add to your character file
 
