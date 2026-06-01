@@ -10,10 +10,15 @@ export interface ApiResponse {
 }
 
 export interface AttestCondition {
-  type: "token_balance" | "nft_ownership" | "eas_attestation" | "farcaster_id";
+  type: "token_balance" | "nft_ownership" | "eas_attestation" | "farcaster_id" | "ratio_to_amount" | "ratio_to_supply";
   contractAddress?: string;
   chainId?: number | "solana" | "xrpl" | "bitcoin" | "tron" | "stellar" | "sui";
   threshold?: number;
+  // ratio_to_amount: met iff balance >= multiple * amount (RPC EVM chains only).
+  multiple?: number;
+  amount?: number;
+  // ratio_to_supply: met iff balance / totalSupply() >= minFraction, a fraction in (0,1] (RPC EVM + ERC-20 only).
+  minFraction?: number;
   decimals?: number;
   currency?: string;
   assetCode?: string;

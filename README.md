@@ -120,7 +120,7 @@ Chain: Base
 
 ### VERIFY_WALLET
 
-Verify 1-10 on-chain conditions (token balances, NFT ownership, EAS attestations, Farcaster identity) across 37 chains. Returns ECDSA-signed boolean results.
+Verify 1-10 on-chain conditions (token balances, NFT ownership, EAS attestations, Farcaster identity, plus `ratio_to_amount` for self-scaling agent-spend limits and `ratio_to_supply` for share-of-supply rules — both EVM only) across 37 chains. Returns ECDSA-signed boolean results.
 
 ```
 User: "Check if 0xd8dA... holds at least 100 UNI"

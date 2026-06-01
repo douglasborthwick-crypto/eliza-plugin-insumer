@@ -13,10 +13,13 @@ Extract the following as a JSON object:
 - suiWallet: Sui address (0x + 64 hex chars) if present
 - format: "jwt" if the user asks for a JWT token, bearer token, Wallet Auth token, or JWT format. Omit otherwise.
 - conditions: array of conditions to check, each with:
-  - type: "token_balance", "nft_ownership", "eas_attestation", or "farcaster_id"
+  - type: "token_balance", "nft_ownership", "eas_attestation", "farcaster_id", "ratio_to_amount", or "ratio_to_supply"
   - contractAddress: token/NFT contract address (use the reference table below)
-  - chainId: chain ID number or "solana", "xrpl", "bitcoin", "tron", "stellar", or "sui"
+  - chainId: chain ID number or "solana", "xrpl", "bitcoin", "tron", "stellar", or "sui" (ratio_to_amount and ratio_to_supply support EVM chain IDs only)
   - threshold: minimum balance (for token_balance)
+  - multiple: collateralization multiple (for ratio_to_amount; met iff balance >= multiple * amount)
+  - amount: reference amount in token units (for ratio_to_amount, e.g. the transaction size the agent intends to spend)
+  - minFraction: required share of total supply as a fraction in (0,1] (for ratio_to_supply, e.g. 0.005 for 0.5% of supply; ERC-20 tokens only)
   - decimals: token decimals (for token_balance)
   - currency: XRPL trust line currency code (e.g. "RLUSD", "USDC"). Required for XRPL trust line tokens.
   - assetCode: Stellar asset code (e.g. "USDC", "BENJI"). Required for Stellar trust line tokens.
@@ -80,6 +83,8 @@ Compliance templates (for eas_attestation, no contractAddress needed):
 If the user says "check if they hold UNI", create a token_balance condition with the UNI contract, chainId 1, threshold 1, decimals 18.
 If the user says "verify KYC", use template "coinbase_verified_account".
 If the user says "check RLUSD balance", use chainId "xrpl", contractAddress "rMxCKbEDwqr76QuheSUMdEGf4B9xJ8m5De", currency "RLUSD".
+If the user says "only if they hold at least 10x the amount they want to spend", create a ratio_to_amount condition with multiple 10 and amount set to the spend size, on the relevant token contract and EVM chainId.
+If the user says "holds at least 0.5% of the token supply", create a ratio_to_supply condition with minFraction 0.005 on the ERC-20 contract and EVM chainId (e.g. the UNI contract, chainId 1).
 
 Respond with ONLY the JSON object, no explanation.`;
 
