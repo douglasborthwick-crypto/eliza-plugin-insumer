@@ -13,12 +13,15 @@ export interface AttestCondition {
   type: "token_balance" | "nft_ownership" | "eas_attestation" | "farcaster_id" | "ratio_to_amount" | "ratio_to_supply";
   contractAddress?: string;
   chainId?: number | "solana" | "xrpl" | "bitcoin" | "tron" | "stellar" | "sui";
-  threshold?: number;
+  // token_balance threshold is sent as a decimal string (v2 keys require it; v1 keys
+  // accept either). A number is coerced to a string before the request is sent.
+  threshold?: string | number;
   // ratio_to_amount: met iff balance >= multiple * amount (RPC EVM chains only).
-  multiple?: number;
-  amount?: number;
+  // Sent as decimal strings on v2 keys (numbers are coerced before the request).
+  multiple?: string | number;
+  amount?: string | number;
   // ratio_to_supply: met iff balance / totalSupply() >= minFraction, a fraction in (0,1] (RPC EVM + ERC-20 only).
-  minFraction?: number;
+  minFraction?: string | number;
   decimals?: number;
   currency?: string;
   assetCode?: string;

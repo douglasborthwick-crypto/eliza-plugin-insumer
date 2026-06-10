@@ -156,6 +156,20 @@ export const verifyWalletAction: Action = {
       return { success: false, text: "No conditions provided" };
     }
 
+    // v2 keys require agent-supplied quantities as decimal strings (full precision, no
+    // float in signed bytes); v1 keys accept either. Coerce so the request works on any key:
+    //   token_balance.threshold, ratio_to_amount.multiple/amount, ratio_to_supply.minFraction.
+    for (const c of params.conditions) {
+      if (c.type === "token_balance" && c.threshold !== undefined && c.threshold !== null) {
+        c.threshold = String(c.threshold);
+      } else if (c.type === "ratio_to_amount") {
+        if (c.multiple !== undefined && c.multiple !== null) c.multiple = String(c.multiple);
+        if (c.amount !== undefined && c.amount !== null) c.amount = String(c.amount);
+      } else if (c.type === "ratio_to_supply" && c.minFraction !== undefined && c.minFraction !== null) {
+        c.minFraction = String(c.minFraction);
+      }
+    }
+
     // Call InsumerAPI
     const result = await apiCall(apiKey, "POST", "/attest", params as unknown as Record<string, unknown>);
 
