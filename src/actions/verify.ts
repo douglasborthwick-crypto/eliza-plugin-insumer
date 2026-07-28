@@ -13,7 +13,7 @@ import { verifyTemplate } from "../utils/templates.js";
 export const verifyWalletAction: Action = {
   name: "VERIFY_WALLET",
   description:
-    "Verify on-chain token balances, NFT ownership, EAS attestations, Farcaster identity, or ratio conditions (hold >= N x a spend amount, or >= a fraction of token supply) for a wallet across 37 blockchains. Returns ECDSA-signed privacy-preserving booleans — never exposes actual balances. Supports EVM, Solana, XRPL, Bitcoin, Tron, Stellar, and Sui.",
+    "Verify on-chain token balances, NFT ownership, EAS attestations, Farcaster identity, arbitrary boolean view calls, ratio conditions (hold >= N x a spend amount, or >= a fraction of token supply), ERC-8004 agent registration, or ERC-7710 delegation validity for a wallet across 38 blockchains. Returns ECDSA-signed privacy-preserving booleans — never exposes actual balances. Supports EVM, Solana, XRPL, Bitcoin, Tron, Stellar, and Sui.",
   similes: [
     "CHECK_WALLET",
     "VERIFY_TOKENS",

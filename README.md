@@ -1,6 +1,6 @@
 # @insumermodel/plugin-eliza
 
-ElizaOS plugin for [InsumerAPI](https://insumermodel.com) — 10 actions for condition-based access across 37 blockchains.
+ElizaOS plugin for [InsumerAPI](https://insumermodel.com) — 10 actions for condition-based access across 38 blockchains.
 
 An agent can go from zero to running a condition-based commerce operation with no human involvement: provision an API key with USDC, create a merchant, configure which tokens gate access, add credits, verify wallets, run ACP/UCP commerce flows, and confirm payments — all autonomously.
 
@@ -120,7 +120,7 @@ Chain: Base
 
 ### VERIFY_WALLET
 
-Verify 1-10 on-chain conditions (token balances, NFT ownership, EAS attestations, Farcaster identity, plus `ratio_to_amount` for self-scaling agent-spend limits and `ratio_to_supply` for share-of-supply rules — both EVM only) across 37 chains. Returns ECDSA-signed boolean results.
+Verify 1-10 on-chain conditions (token balances, NFT ownership, EAS attestations, Farcaster identity, `evm_view_call` boolean view functions, `ratio_to_amount` for self-scaling agent-spend limits and `ratio_to_supply` for share-of-supply rules — all three EVM only, plus `erc8004_agent` and `erc7710_delegation` agent-standing checks on Base) across 38 chains. Returns ECDSA-signed boolean results.
 
 ```
 User: "Check if 0xd8dA... holds at least 100 UNI"

@@ -13,7 +13,7 @@ Extract the following as a JSON object:
 - suiWallet: Sui address (0x + 64 hex chars) if present
 - format: "jwt" if the user asks for a JWT token, bearer token, Wallet Auth token, or JWT format. Omit otherwise.
 - conditions: array of conditions to check, each with:
-  - type: "token_balance", "nft_ownership", "eas_attestation", "farcaster_id", "ratio_to_amount", or "ratio_to_supply"
+  - type: "token_balance", "nft_ownership", "eas_attestation", "farcaster_id", "evm_view_call", "ratio_to_amount", "ratio_to_supply", "erc8004_agent", or "erc7710_delegation"
   - contractAddress: token/NFT contract address (use the reference table below)
   - chainId: chain ID number or "solana", "xrpl", "bitcoin", "tron", "stellar", or "sui" (ratio_to_amount and ratio_to_supply support EVM chain IDs only)
   - threshold: minimum balance for token_balance, as a decimal STRING in token units (e.g. "1000", not 1000) to preserve full precision
@@ -26,8 +26,11 @@ Extract the following as a JSON object:
   - taxon: XRPL NFT taxon number (optional, for nft_ownership on XRPL only)
   - label: human-readable description
   - template: compliance template name (for eas_attestation)
+  - selector: for evm_view_call (RPC EVM only), the canonical signature of a single-address-argument view function returning bool, e.g. "hasAccess(address)"
+  - agentId: for erc8004_agent (Base, chainId 8453), the ERC-8004 agent ID as a uint256 decimal string; met iff the wallet owns the agent NFT or is the registry agentWallet binding (registration is permissionless minting; no vetting implied)
+  - delegationManager, expectedDelegator, delegation: for erc7710_delegation (Base, chainId 8453, max 3 per call). delegation = {delegator, delegate, authority, caveats, salt, signature}; met iff the wallet is the delegate, the delegator matches expectedDelegator, the EIP-712 signature verifies (EOA or ERC-1271), unrevoked at the anchored block, all caveat enforcers recognized, and time windows are satisfied. Spend/target/call limits are reported as declaredLimits, not simulated; these attestations expire in 5 minutes. nft_ownership is supported on 34 of the 38 chains (EVM + Solana + XRPL); Bitcoin, Tron, Stellar and Sui are token_balance only
 
-Chain ID reference (37 supported chains):
+Chain ID reference (38 supported chains):
   Ethereum = 1, BNB Chain = 56, Base = 8453, Avalanche = 43114,
   Polygon = 137, Arbitrum = 42161, Optimism = 10, Chiliz = 88888,
   Soneium = 1868, Plume = 98866, World Chain = 480,
@@ -36,6 +39,7 @@ Chain ID reference (37 supported chains):
   Ronin = 2020, Celo = 42220, Moonbeam = 1284, Moonriver = 1285,
   Viction = 88, opBNB = 204, Unichain = 130, Ink = 57073,
   Sei = 1329, Berachain = 80094, ApeChain = 33139, XDC = 50,
+  Robinhood Chain = 4663,
   Solana = "solana", XRPL = "xrpl", Bitcoin = "bitcoin",
   Tron = "tron", Stellar = "stellar", Sui = "sui"
 
@@ -188,6 +192,7 @@ Onboarding chain IDs (EVM chains + Solana + XRPL supported for token config):
   Linea = 59144, zkSync Era = 324, Blast = 81457, Celo = 42220,
   Moonbeam = 1284, opBNB = 204, Unichain = 130, Ink = 57073,
   Sei = 1329, Berachain = 80094, ApeChain = 33139, XDC = 50,
+  Robinhood Chain = 4663,
   Solana = "solana", XRPL = "xrpl"
 
 Well-known contracts:

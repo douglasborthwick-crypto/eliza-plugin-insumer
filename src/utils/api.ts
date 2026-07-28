@@ -10,7 +10,7 @@ export interface ApiResponse {
 }
 
 export interface AttestCondition {
-  type: "token_balance" | "nft_ownership" | "eas_attestation" | "farcaster_id" | "ratio_to_amount" | "ratio_to_supply";
+  type: "token_balance" | "nft_ownership" | "eas_attestation" | "farcaster_id" | "evm_view_call" | "ratio_to_amount" | "ratio_to_supply" | "erc8004_agent" | "erc7710_delegation";
   contractAddress?: string;
   chainId?: number | "solana" | "xrpl" | "bitcoin" | "tron" | "stellar" | "sui";
   // token_balance threshold is sent as a decimal string (v2 keys require it; v1 keys
