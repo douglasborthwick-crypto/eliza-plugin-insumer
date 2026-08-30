@@ -215,7 +215,7 @@ If the API cannot reach one or more data sources after retries, actions return `
 
 **Important:** `rpc_failure` is NOT a verification failure. Do not treat it as `pass: false`. It means the data source was temporarily unavailable and the API refused to sign an unverified result.
 
-## Supported Chains (37)
+## Supported Chains (38)
 
 31 EVM chains + Solana + XRP Ledger + Bitcoin + Tron + Stellar + Sui. Includes Ethereum, Base, Polygon, Arbitrum, Optimism, BNB Chain, Avalanche, XDC, and 23 more EVM chains. [Full list →](https://insumermodel.com/developers/api-reference/)
 
@@ -237,7 +237,7 @@ If the API cannot reach one or more data sources after retries, actions return `
 - **Claude Code Skill:** `smithery skill add douglasborthwick/insumer-skill` ([Smithery](https://smithery.ai/skills/douglasborthwick/insumer-skill) · [GitHub](https://github.com/douglasborthwick-crypto/insumer-skill)) — for *writing* wallet auth into your own projects from inside Claude Code
 - **MCP Server:** `npx -y mcp-server-insumer` ([npm](https://www.npmjs.com/package/mcp-server-insumer)) — for runtime agent access to the API
 - **LangChain:** `pip install langchain-insumer` ([PyPI](https://pypi.org/project/langchain-insumer/))
-- **OpenAI GPT:** [GPT Store](https://chatgpt.com/g/g-67bf98eb32dc8191a4051de54f7e2c6e-insumer-api-assistant)
+- **OpenAI GPT:** [InsumerAPI Wallet Auth](https://chatgpt.com/g/g-699c5e43ce2481918b3f1e7f144c8a49-insumerapi-wallet-auth) (GPT Store)
 
 ## Links
 
