@@ -203,7 +203,23 @@ Chain: Base
 
 ## Wallet Auth (JWT)
 
-The VERIFY_WALLET action supports `format: "jwt"` when the user requests a JWT or bearer token. The response includes a standard ES256-signed JWT alongside the attestation, verifiable by any JWT library via the JWKS endpoint at `GET /v1/jwks`. Use this for direct API gateway integration (Kong, Nginx, Cloudflare Access, AWS API Gateway).
+The VERIFY_WALLET action supports `format: "jwt"` when the user requests a JWT or bearer token. The response includes a standard ES256-signed JWT alongside the attestation, verifiable by any JWT library via the JWKS endpoint at `GET /v1/jwks`, and beside it a `pqJwt` sibling (a compact JWS with `alg` ML-DSA-65 carrying the same claims). Use the `jwt` for direct API gateway integration (Kong, Nginx, Cloudflare Access, AWS API Gateway).
+
+## Signed responses
+
+VERIFY_WALLET, CHECK_TRUST, and CHECK_TRUST_BATCH return the full API envelope in the action result's `data`. The callback text summarises pass/fail; the signature travels in `data`:
+
+```json
+{
+  "attestation": { "id": "ATST-A7C3E1B2D4F56789", "pass": true, "results": [ ... ], "attestedAt": "2026-09-02T12:34:57.000Z", "expiresAt": "2026-09-02T13:04:57.000Z" },
+  "sig": "NgA7BO8SAildiTrgIQY2UyXsBrySZknkP85pT2Zqv8Hq0KsCsB8DRFVMkXgnXtCXrbb726Is6k4LyyBYU+f/Pw==",
+  "kid": "insumer-attest-v2",
+  "pqSig": "<base64 ML-DSA-65 signature>",
+  "pqKid": "insumer-attest-pq1"
+}
+```
+
+`sig` is an ECDSA P-256 signature (base64, P1363 r||s) and `kid` selects the signed preimage (`insumer-attest-v2` signs the domain-tagged canonical JSON; `insumer-attest-v1` signs bare insertion-order JSON). Since 2026-09-01 every attest and trust response also carries an ML-DSA-65 post-quantum companion, `pqSig` and `pqKid` (trust profiles use `insumer-trust-pq1`), added beside `sig` and `kid` without changing them. The JWKS at `https://insumermodel.com/.well-known/jwks.json` holds five entries over two keys: the EC key under three kids, then the post-quantum key under two RFC 9964 `AKP` entries. Match by `kid` or `pqKid`, never by position. `npm install insumer-verify` (1.8.1+) verifies the envelope and reports five verdicts: signature, condition hash, freshness, expiry, and the post-quantum companion.
 
 ## Provider: WALLET_CREDENTIALS
 
@@ -217,7 +233,7 @@ If the API cannot reach one or more data sources after retries, actions return `
 
 ## Supported Chains (38)
 
-31 EVM chains + Solana + XRP Ledger + Bitcoin + Tron + Stellar + Sui. Includes Ethereum, Base, Polygon, Arbitrum, Optimism, BNB Chain, Avalanche, XDC, and 23 more EVM chains. [Full list →](https://insumermodel.com/developers/api-reference/)
+32 EVM chains + Solana + XRP Ledger + Bitcoin + Tron + Stellar + Sui. Includes Ethereum, Base, Polygon, Arbitrum, Optimism, BNB Chain, Avalanche, XDC, Robinhood Chain, and 23 more EVM chains. [Full list →](https://insumermodel.com/developers/api-reference/)
 
 ## Pricing
 
