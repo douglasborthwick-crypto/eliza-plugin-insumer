@@ -178,7 +178,7 @@ Extract the following as a JSON object:
   - symbol: token symbol (e.g. "USDC", "UNI")
   - chainId: chain ID number
   - contractAddress: token contract address
-  - decimals: token decimals (6 for USDC, 18 for most ERC-20)
+  - decimals: token decimals, required (6 for USDC, 18 for most ERC-20)
   - currency: XRPL trust line currency code (e.g. "RLUSD", "USDC") — only for XRPL tokens
   - tiers: array of 1-4 tiers, each with:
     - name: tier name (e.g. "Bronze", "Silver", "Gold")
@@ -186,7 +186,7 @@ Extract the following as a JSON object:
     - discount: discount percentage (1-50)
 - partnerTokens: array of additional token configs (same structure as ownToken), default []
 
-Onboarding chain IDs (EVM chains + Solana + XRPL supported for token config):
+Onboarding chain IDs (all 31 EVM chains + Solana + XRPL; Bitcoin, Tron, Stellar and Sui are not available for token config):
   Ethereum = 1, BNB Chain = 56, Base = 8453, Avalanche = 43114,
   Polygon = 137, Arbitrum = 42161, Optimism = 10, Chiliz = 88888,
   Soneium = 1868, Plume = 98866, World Chain = 480,
@@ -194,7 +194,8 @@ Onboarding chain IDs (EVM chains + Solana + XRPL supported for token config):
   Linea = 59144, zkSync Era = 324, Blast = 81457, Celo = 42220,
   opBNB = 204, Unichain = 130, Ink = 57073,
   Sei = 1329, Berachain = 80094, ApeChain = 33139, XDC = 50,
-  Robinhood Chain = 4663,
+  Robinhood Chain = 4663, Taiko = 167000, Ronin = 2020, Viction = 88,
+  Arc = 5042,
   Solana = "solana", XRPL = "xrpl"
 
 Well-known contracts:

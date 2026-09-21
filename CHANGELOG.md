@@ -1,5 +1,10 @@
 # Changelog
 
+## 2.3.5 (2026-09-21)
+
+- The token-configuration prompt lists all 31 EVM chains the merchant registry accepts (adds Taiko, Ronin, Viction and Arc), says Bitcoin, Tron, Stellar and Sui are not available there, and marks `decimals` as required.
+- README: the CHECK_TRUST example output shows all five base dimensions and adds up to 45.
+
 ## 2.3.4 (2026-09-21)
 
 - Aligns the trust profile counts with the engine as of 2026-09-21, when USDC on Arc became a trust check: 45 base checks across 26 chains in 5 dimensions (was 44 across 25), up to 50 across 28 chains in 9 dimensions with the optional wallets (was 49 across 27). The README example outputs read out of 45.

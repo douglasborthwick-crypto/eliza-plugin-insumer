@@ -140,11 +140,12 @@ User: "What's the trust profile for 0xd8dA...?"
 Agent: [calls CHECK_TRUST → POST /v1/trust]
 
 Trust Profile TRST-B2K4F
-  stablecoins: 5/7 passed
-  governance: 2/4 passed
+  stablecoins: 15/27 passed
+  governance: 4/4 passed
   nfts: 1/3 passed
-  staking: 2/3 passed
-Overall: 22/45 checks passed
+  staking: 1/3 passed
+  institutional_stablecoins: 0/8 passed
+Overall: 21/45 checks passed
 ```
 
 ### CHECK_TRUST_BATCH
@@ -156,7 +157,7 @@ User: "Check trust for these wallets: 0xd8dA..., 0xAb58..., 0x1234..."
 Agent: [calls CHECK_TRUST_BATCH → POST /v1/trust/batch]
 
 Batch Trust: 3 profiles
-  0xd8dA...: 22/45 checks passed (TRST-B2K4F)
+  0xd8dA...: 21/45 checks passed (TRST-B2K4F)
   0xAb58...: 14/45 checks passed (TRST-C3L5G)
   0x1234...: 6/45 checks passed (TRST-D4M6H)
 ```
