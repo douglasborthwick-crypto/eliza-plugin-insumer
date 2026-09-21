@@ -1,6 +1,6 @@
 # @insumermodel/plugin-eliza
 
-ElizaOS plugin for [InsumerAPI](https://insumermodel.com) — 10 actions for condition-based access across 38 blockchains.
+ElizaOS plugin for [InsumerAPI](https://insumermodel.com): 10 actions for condition-based access across 37 blockchains.
 
 An agent can go from zero to running a condition-based commerce operation with no human involvement: provision an API key with USDC, create a merchant, configure which tokens gate access, add credits, verify wallets, run ACP/UCP commerce flows, and confirm payments — all autonomously.
 
@@ -120,7 +120,7 @@ Chain: Base
 
 ### VERIFY_WALLET
 
-Verify 1-10 on-chain conditions (token balances, NFT ownership, EAS attestations, Farcaster identity, `evm_view_call` boolean view functions, `ratio_to_amount` for self-scaling agent-spend limits and `ratio_to_supply` for share-of-supply rules — all three EVM only, plus `erc8004_agent` and `erc7710_delegation` agent-standing checks on Base) across 38 chains. Returns ECDSA-signed boolean results.
+Verify 1-10 on-chain conditions (token balances, NFT ownership, EAS attestations, Farcaster identity, `evm_view_call` boolean view functions, `ratio_to_amount` for self-scaling agent-spend limits and `ratio_to_supply` for share-of-supply rules (all three EVM only), plus `erc8004_agent` and `erc7710_delegation` agent-standing checks on Base) across 37 chains. Returns ECDSA-signed boolean results.
 
 ```
 User: "Check if 0xd8dA... holds at least 100 UNI"
@@ -144,7 +144,7 @@ Trust Profile TRST-B2K4F
   governance: 2/4 passed
   nfts: 1/3 passed
   staking: 2/3 passed
-Overall: 22/38 checks passed
+Overall: 22/44 checks passed
 ```
 
 ### CHECK_TRUST_BATCH
@@ -156,9 +156,9 @@ User: "Check trust for these wallets: 0xd8dA..., 0xAb58..., 0x1234..."
 Agent: [calls CHECK_TRUST_BATCH → POST /v1/trust/batch]
 
 Batch Trust: 3 profiles
-  0xd8dA...: 22/38 checks passed (TRST-B2K4F)
-  0xAb58...: 14/38 checks passed (TRST-C3L5G)
-  0x1234...: 6/38 checks passed (TRST-D4M6H)
+  0xd8dA...: 22/44 checks passed (TRST-B2K4F)
+  0xAb58...: 14/44 checks passed (TRST-C3L5G)
+  0x1234...: 6/44 checks passed (TRST-D4M6H)
 ```
 
 ### ACP_DISCOUNT
@@ -231,9 +231,9 @@ If the API cannot reach one or more data sources after retries, actions return `
 
 **Important:** `rpc_failure` is NOT a verification failure. Do not treat it as `pass: false`. It means the data source was temporarily unavailable and the API refused to sign an unverified result.
 
-## Supported Chains (38)
+## Supported Chains (37)
 
-32 EVM chains + Solana + XRP Ledger + Bitcoin + Tron + Stellar + Sui. Includes Ethereum, Base, Polygon, Arbitrum, Optimism, BNB Chain, Avalanche, XDC, Robinhood Chain, and 23 more EVM chains. [Full list →](https://insumermodel.com/developers/api-reference/)
+31 EVM chains + Solana + XRP Ledger + Bitcoin + Tron + Stellar + Sui. Includes Ethereum, Base, Polygon, Arbitrum, Optimism, BNB Chain, Avalanche, XDC, Robinhood Chain, Arc, and 21 more EVM chains. [Full list →](https://insumermodel.com/developers/api-reference/)
 
 ## Pricing
 

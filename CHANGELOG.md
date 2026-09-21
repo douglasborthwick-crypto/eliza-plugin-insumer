@@ -1,5 +1,13 @@
 # Changelog
 
+## 2.3.3 (2026-09-20)
+
+- Aligns chain counts with the engine: 37 chains, 31 EVM; NFT ownership on 33. The chain ID reference adds Arc (5042).
+- Removes Moonbeam and Moonriver, which the engine retired on 2026-09-20, from the verification and onboarding chain references.
+- Updates the verification prompt so the model leaves `decimals` out: the token's own decimals are always read from the chain, and a value that differs is rejected with a 400. The handler also drops a `decimals` field if the model emits one.
+- Clarifies `contractAddress`: `native` is for `token_balance` and `ratio_to_amount` only, `nft_ownership` needs the NFT contract address, and native SUI is `0x2::sui::SUI`.
+- Updates the trust profile wording: 44 base checks across 25 chains in 5 dimensions, up to 49 across 27 chains with optional wallets.
+
 ## 2.3.2 (2026-09-02)
 
 - Adds a "Signed responses" section to the README: the action result's `data` carries `sig`, `kid`, and since 2026-09-01 the ML-DSA-65 post-quantum companion `pqSig`/`pqKid` (with `pqJwt` beside `jwt`); the JWKS holds five entries over two keys; `insumer-verify` 1.8.1+ reports five verdicts.

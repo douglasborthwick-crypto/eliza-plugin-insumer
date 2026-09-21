@@ -13,7 +13,7 @@ import { verifyTemplate } from "../utils/templates.js";
 export const verifyWalletAction: Action = {
   name: "VERIFY_WALLET",
   description:
-    "Verify on-chain token balances, NFT ownership, EAS attestations, Farcaster identity, arbitrary boolean view calls, ratio conditions (hold >= N x a spend amount, or >= a fraction of token supply), ERC-8004 agent registration, or ERC-7710 delegation validity for a wallet across 38 blockchains. Returns ECDSA-signed privacy-preserving booleans — never exposes actual balances. Supports EVM, Solana, XRPL, Bitcoin, Tron, Stellar, and Sui.",
+    "Verify on-chain token balances, NFT ownership, EAS attestations, Farcaster identity, arbitrary boolean view calls, ratio conditions (hold >= N x a spend amount, or >= a fraction of token supply), ERC-8004 agent registration, or ERC-7710 delegation validity for a wallet across 37 blockchains. Returns ECDSA-signed privacy-preserving booleans and never exposes actual balances. Supports EVM, Solana, XRPL, Bitcoin, Tron, Stellar, and Sui.",
   similes: [
     "CHECK_WALLET",
     "VERIFY_TOKENS",
@@ -160,6 +160,9 @@ export const verifyWalletAction: Action = {
     // float in signed bytes); v1 keys accept either. Coerce so the request works on any key:
     //   token_balance.threshold, ratio_to_amount.multiple/amount, ratio_to_supply.minFraction.
     for (const c of params.conditions) {
+      // The conditions come from a language model. The API reads a token's own decimals from the
+      // chain and rejects a value that differs, so a guessed decimals is never forwarded.
+      delete (c as { decimals?: unknown }).decimals;
       if (c.type === "token_balance" && c.threshold !== undefined && c.threshold !== null) {
         c.threshold = String(c.threshold);
       } else if (c.type === "ratio_to_amount") {
