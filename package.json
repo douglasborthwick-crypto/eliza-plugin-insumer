@@ -38,7 +38,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/douglasborthwick-crypto/eliza-plugin-insumer.git"
+    "url": "git+https://github.com/insumerapi/eliza-plugin-insumer.git"
   },
   "peerDependencies": {
     "@elizaos/core": "^1.7.0"

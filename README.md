@@ -251,7 +251,7 @@ If the API cannot reach one or more data sources after retries, actions return `
 
 ## Also Available As
 
-- **Claude Code Skill:** `smithery skill add douglasborthwick/insumer-skill` ([Smithery](https://smithery.ai/skills/douglasborthwick/insumer-skill) · [GitHub](https://github.com/douglasborthwick-crypto/insumer-skill)) — for *writing* wallet auth into your own projects from inside Claude Code
+- **Claude Code Skill:** `smithery skill add douglasborthwick/insumer-skill` ([Smithery](https://smithery.ai/skills/douglasborthwick/insumer-skill) · [GitHub](https://github.com/insumerapi/insumer-skill)) — for *writing* wallet auth into your own projects from inside Claude Code
 - **MCP Server:** `npx -y mcp-server-insumer` ([npm](https://www.npmjs.com/package/mcp-server-insumer)) — for runtime agent access to the API
 - **LangChain:** `pip install langchain-insumer` ([PyPI](https://pypi.org/project/langchain-insumer/))
 - **OpenAI GPT:** [InsumerAPI Wallet Auth](https://chatgpt.com/g/g-699c5e43ce2481918b3f1e7f144c8a49-insumerapi-wallet-auth) (GPT Store)
